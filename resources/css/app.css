@@ -5,7 +5,1271 @@
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
+/* =============================================================================
+   Risk Master — Design System
+   resources/css/app.css
+   Tailwind CSS v4.3 | Palette: Mauve · Mist · Olive
+   =============================================================================
+
+   PALET WARNA (Radix-inspired):
+   • Mauve  — ungu keabuan, tone utama UI (neutral yang lebih hangat dari slate)
+   • Mist   — biru kehijauan, aksen info/primary (lebih sejuk dari sky)
+   • Olive  — hijau kekuningan, aksen sukses/nature
+   • + Amber, Rose sebagai peran warning/danger
+   ============================================================================= */
+
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+
+  /* ── MAUVE (Neutral utama — ungu keabuan) ─────────────────────────────────
+     Dipakai untuk: background halaman, sidebar, teks, border, card surface.
+     Lebih hangat dan berkarakter dari slate/zinc biasa.                      */
+  --color-mauve-1:  #fdfcfd;   /* page bg */
+  --color-mauve-2:  #f9f8f9;   /* subtle bg */
+  --color-mauve-3:  #f2eff3;   /* component bg */
+  --color-mauve-4:  #ebe7ec;   /* hover bg */
+  --color-mauve-5:  #e3dfe6;   /* active bg */
+  --color-mauve-6:  #d9d3dd;   /* subtle border */
+  --color-mauve-7:  #cdc6d3;   /* border */
+  --color-mauve-8:  #b9b0c2;   /* strong border */
+  --color-mauve-9:  #8e84a0;   /* solid bg */
+  --color-mauve-10: #837994;   /* solid hover */
+  --color-mauve-11: #5c5470;   /* low-contrast text */
+  --color-mauve-12: #1c172b;   /* high-contrast text */
+
+  /* ── MIST (Primary — biru kehijauan/teal) ────────────────────────────────
+     Dipakai untuk: tombol primary, link aktif, focus ring, highlight.        */
+  --color-mist-1:  #f5fbfa;
+  --color-mist-2:  #edf8f6;
+  --color-mist-3:  #d6f0eb;
+  --color-mist-4:  #bde7df;
+  --color-mist-5:  #a1dcd4;
+  --color-mist-6:  #81cfc6;
+  --color-mist-7:  #5bbdb4;
+  --color-mist-8:  #1fa99e;
+  --color-mist-9:  #12a196;   /* primary solid */
+  --color-mist-10: #0d9088;   /* primary hover */
+  --color-mist-11: #0a746e;   /* primary text */
+  --color-mist-12: #012e2b;   /* primary dark */
+
+  /* ── OLIVE (Success — hijau kekuningan) ──────────────────────────────────
+     Dipakai untuk: badge sukses, indikator selesai, status positif.          */
+  --color-olive-1:  #f9faf5;
+  --color-olive-2:  #f2f4e8;
+  --color-olive-3:  #e5e9d0;
+  --color-olive-4:  #d4dab6;
+  --color-olive-5:  #c2ca9c;
+  --color-olive-6:  #adb882;
+  --color-olive-7:  #94a362;
+  --color-olive-8:  #748040;
+  --color-olive-9:  #667535;   /* success solid */
+  --color-olive-10: #5a6730;   /* success hover */
+  --color-olive-11: #404b1e;   /* success text */
+  --color-olive-12: #1a1f0a;
+
+  /* ── AMBER (Warning) ──────────────────────────────────────────────────────*/
+  --color-amber-1:  #fefdfb;
+  --color-amber-2:  #fef9ed;
+  --color-amber-3:  #fdeece;
+  --color-amber-4:  #fbe0a6;
+  --color-amber-5:  #f8ce73;
+  --color-amber-6:  #efba37;
+  --color-amber-7:  #e6a915;
+  --color-amber-8:  #d08800;
+  --color-amber-9:  #ffc215;   /* warning solid */
+  --color-amber-10: #e5a300;   /* warning hover */
+  --color-amber-11: #915600;   /* warning text */
+  --color-amber-12: #3f2000;
+
+  /* ── ROSE (Danger) ────────────────────────────────────────────────────────*/
+  --color-rose-1:  #fff5f5;
+  --color-rose-2:  #ffecec;
+  --color-rose-3:  #ffd9d9;
+  --color-rose-4:  #ffbebe;
+  --color-rose-5:  #f89898;
+  --color-rose-6:  #f06e6e;
+  --color-rose-7:  #e84646;
+  --color-rose-8:  #d81c1c;
+  --color-rose-9:  #c61414;   /* danger solid */
+  --color-rose-10: #b01010;   /* danger hover */
+  --color-rose-11: #7e0c0c;   /* danger text */
+  --color-rose-12: #350404;
+
+  /* ── SEMANTIC ALIASES ─────────────────────────────────────────────────────
+     Pakai alias ini di komponen agar mudah ganti tema nanti.                 */
+  --color-bg:           var(--color-mauve-1);
+  --color-bg-subtle:    var(--color-mauve-2);
+  --color-bg-muted:     var(--color-mauve-3);
+  --color-border:       var(--color-mauve-6);
+  --color-border-muted: var(--color-mauve-5);
+  --color-border-strong: var(--color-mauve-8);
+
+  --color-text:         var(--color-mauve-12);
+  --color-text-muted:   var(--color-mauve-11);
+  --color-text-subtle:  var(--color-mauve-9);
+
+  --color-primary:      var(--color-mist-9);
+  --color-primary-hover: var(--color-mist-10);
+  --color-primary-text: var(--color-mist-11);
+  --color-primary-bg:   var(--color-mist-2);
+  --color-primary-border: var(--color-mist-6);
+
+  --color-success:      var(--color-olive-9);
+  --color-success-text: var(--color-olive-11);
+  --color-success-bg:   var(--color-olive-2);
+  --color-success-border: var(--color-olive-6);
+
+  --color-warning:      var(--color-amber-9);
+  --color-warning-text: var(--color-amber-11);
+  --color-warning-bg:   var(--color-amber-2);
+  --color-warning-border: var(--color-amber-6);
+
+  --color-danger:       var(--color-rose-9);
+  --color-danger-text:  var(--color-rose-11);
+  --color-danger-bg:    var(--color-rose-2);
+  --color-danger-border: var(--color-rose-6);
+
+  /* ── SIDEBAR ──────────────────────────────────────────────────────────────*/
+  --color-sidebar-bg:       var(--color-mauve-12);
+  --color-sidebar-hover:    var(--color-mauve-11);
+  --color-sidebar-active:   var(--color-mist-9);
+  --color-sidebar-text:     var(--color-mauve-3);
+  --color-sidebar-muted:    var(--color-mauve-8);
+  --color-sidebar-border:   color-mix(in srgb, var(--color-mauve-8) 30%, transparent);
+
+  /* ── TIPOGRAFI ────────────────────────────────────────────────────────────*/
+  --font-sans:  "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono:  "JetBrains Mono", "Fira Code", ui-monospace, monospace;
+
+  --font-size-xs:   0.75rem;     /* 12px */
+  --font-size-sm:   0.8125rem;   /* 13px */
+  --font-size-base: 0.9375rem;   /* 15px — sedikit lebih besar dari 14px default */
+  --font-size-lg:   1.0625rem;   /* 17px */
+  --font-size-xl:   1.25rem;     /* 20px */
+  --font-size-2xl:  1.5rem;      /* 24px */
+  --font-size-3xl:  1.875rem;    /* 30px */
+
+  /* ── SHADOW ───────────────────────────────────────────────────────────────*/
+  --shadow-xs:   0 1px 2px 0 color-mix(in srgb, var(--color-mauve-12) 6%, transparent);
+  --shadow-sm:   0 1px 3px 0 color-mix(in srgb, var(--color-mauve-12) 10%, transparent),
+                 0 1px 2px -1px color-mix(in srgb, var(--color-mauve-12) 10%, transparent);
+  --shadow-md:   0 4px 6px -1px color-mix(in srgb, var(--color-mauve-12) 10%, transparent),
+                 0 2px 4px -2px color-mix(in srgb, var(--color-mauve-12) 10%, transparent);
+  --shadow-lg:   0 10px 15px -3px color-mix(in srgb, var(--color-mauve-12) 10%, transparent),
+                 0 4px 6px -4px color-mix(in srgb, var(--color-mauve-12) 10%, transparent);
+  --shadow-inset: inset 0 1px 2px 0 color-mix(in srgb, var(--color-mauve-12) 6%, transparent);
+  --shadow-focus: 0 0 0 3px color-mix(in srgb, var(--color-mist-8) 30%, transparent);
+
+  /* ── RADIUS ───────────────────────────────────────────────────────────────*/
+  --radius-sm:  0.25rem;   /* 4px  — chip, tag kecil */
+  --radius-md:  0.5rem;    /* 8px  — input, badge */
+  --radius-lg:  0.75rem;   /* 12px — card, dropdown */
+  --radius-xl:  1rem;      /* 16px — modal, panel besar */
+  --radius-full: 9999px;   /* pill */
+
+  /* ── TRANSITION ───────────────────────────────────────────────────────────*/
+  --duration-fast:   100ms;
+  --duration-base:   150ms;
+  --duration-slow:   250ms;
+  --ease-out:        cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* ── LAYOUT ───────────────────────────────────────────────────────────────*/
+  --sidebar-width:       240px;
+  --sidebar-width-collapsed: 64px;
+  --topbar-height:       56px;
+  --content-max-width:   1280px;
+}
+
+
+/* =============================================================================
+   BASE — reset dan elemen HTML
+   ============================================================================= */
+
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html {
+    font-size: var(--font-size-base);
+    font-family: var(--font-sans);
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  body { min-height: 100dvh; }
+
+  /* Scrollbar global — Tailwind v4 sudah support scrollbar utilities */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-mauve-7) transparent;
+  }
+  *::-webkit-scrollbar       { width: 6px; height: 6px; }
+  *::-webkit-scrollbar-track { background: transparent; }
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--color-mauve-7);
+    border-radius: var(--radius-full);
+    &:hover { background-color: var(--color-mauve-8); }
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+  }
+
+  p { line-height: 1.65; color: var(--color-text-muted); }
+
+  a {
+    color: var(--color-primary-text);
+    text-decoration: none;
+    transition: color var(--duration-base) var(--ease-out);
+    &:hover { color: var(--color-primary); }
+  }
+
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+    background: var(--color-mauve-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: 0.125em 0.375em;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin: 1.5rem 0;
+  }
+}
+
+
+/* =============================================================================
+   COMPONENTS — class modular yang bisa dipakai ulang di Blade
+   ============================================================================= */
+
+@layer components {
+
+  /* ── BUTTON ─────────────────────────────────────────────────────────────────
+     Penggunaan:
+       <button class="btn btn-primary">Hitung EDAS</button>
+       <button class="btn btn-secondary">Batal</button>
+       <button class="btn btn-danger btn-sm">Hapus</button>
+       <button class="btn btn-ghost">Lihat Detail</button>
+       <a href="#" class="btn btn-primary btn-icon">
+         <svg>...</svg> Download
+       </a>
+  ─────────────────────────────────────────────────────────────────────────── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    line-height: 1.25;
+    border-radius: var(--radius-md);
+    border: 1px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    user-select: none;
+    transition:
+      background-color var(--duration-base) var(--ease-out),
+      color var(--duration-base) var(--ease-out),
+      border-color var(--duration-base) var(--ease-out),
+      box-shadow var(--duration-base) var(--ease-out),
+      transform var(--duration-fast) var(--ease-out),
+      opacity var(--duration-base) var(--ease-out);
+
+    /* Tekan efek — pure CSS, tidak perlu JS */
+    &:active:not(:disabled) { transform: scale(0.97); }
+
+    &:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    /* Focus ring — pakai :focus-visible agar tidak muncul saat klik mouse */
+    &:focus-visible {
+      outline: none;
+      box-shadow: var(--shadow-focus);
+    }
+
+    /* Loading state — pakai aria-busy dari backend atau Alpine */
+    &[aria-busy="true"] {
+      pointer-events: none;
+      opacity: 0.8;
+      /* Spinner via CSS background */
+      &::after {
+        content: "";
+        width: 14px;
+        height: 14px;
+        border: 2px solid currentColor;
+        border-top-color: transparent;
+        border-radius: 50%;
+        animation: btn-spin 0.6s linear infinite;
+      }
+    }
+
+    /* Icon inside button */
+    & svg { width: 1em; height: 1em; flex-shrink: 0; }
+  }
+
+  @keyframes btn-spin { to { transform: rotate(360deg); } }
+
+  .btn-primary {
+    background-color: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+    &:hover:not(:disabled) { background-color: var(--color-primary-hover); border-color: var(--color-primary-hover); }
+  }
+
+  .btn-secondary {
+    background-color: var(--color-mauve-3);
+    color: var(--color-text);
+    border-color: var(--color-border);
+    &:hover:not(:disabled) { background-color: var(--color-mauve-4); }
+  }
+
+  .btn-ghost {
+    background-color: transparent;
+    color: var(--color-text-muted);
+    border-color: transparent;
+    &:hover:not(:disabled) { background-color: var(--color-mauve-3); color: var(--color-text); }
+  }
+
+  .btn-danger {
+    background-color: var(--color-danger);
+    color: white;
+    border-color: var(--color-danger);
+    &:hover:not(:disabled) { background-color: var(--color-rose-10); border-color: var(--color-rose-10); }
+  }
+
+  .btn-outline-primary {
+    background-color: transparent;
+    color: var(--color-primary-text);
+    border-color: var(--color-primary-border);
+    &:hover:not(:disabled) { background-color: var(--color-primary-bg); }
+  }
+
+  .btn-success {
+    background-color: var(--color-success);
+    color: white;
+    border-color: var(--color-success);
+    &:hover:not(:disabled) { background-color: var(--color-olive-10); border-color: var(--color-olive-10); }
+  }
+
+  /* Ukuran */
+  .btn-xs { padding: 0.25rem 0.625rem; font-size: var(--font-size-xs); border-radius: var(--radius-sm); }
+  .btn-sm { padding: 0.375rem 0.75rem; font-size: var(--font-size-xs); }
+  .btn-lg { padding: 0.625rem 1.25rem; font-size: 1rem; }
+  .btn-xl { padding: 0.75rem 1.5rem;   font-size: 1.0625rem; border-radius: var(--radius-lg); }
+
+  /* Full width */
+  .btn-block { width: 100%; }
+
+  /* Hanya icon */
+  .btn-icon-only { padding: 0.5rem; gap: 0; & svg { width: 1.125em; height: 1.125em; } }
+
+
+  /* ── CARD ────────────────────────────────────────────────────────────────────
+     Penggunaan:
+       <div class="card">...</div>
+       <div class="card card-hover">...</div>   ← interaktif/dapat diklik
+       <div class="card-header">Judul</div>
+       <div class="card-body">...</div>
+       <div class="card-footer">...</div>
+  ─────────────────────────────────────────────────────────────────────────── */
+  .card {
+    background-color: white;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xs);
+    overflow: hidden;
+    transition: box-shadow var(--duration-base) var(--ease-out), border-color var(--duration-base) var(--ease-out);
+  }
+
+  .card-hover {
+    cursor: pointer;
+    &:hover { box-shadow: var(--shadow-md); border-color: var(--color-border-strong); }
+    &:active { transform: scale(0.995); }
+    /* :has untuk parent-aware hover — tidak butuh JS */
+    &:has(a:hover), &:has(button:hover) { box-shadow: var(--shadow-md); }
+  }
+
+  .card-selected {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary) 20%, transparent);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--color-border);
+    font-weight: 600;
+    color: var(--color-text);
+    font-size: var(--font-size-sm);
+    letter-spacing: -0.01em;
+  }
+
+  .card-body { padding: 1.25rem; }
+
+  .card-footer {
+    padding: 0.875rem 1.25rem;
+    border-top: 1px solid var(--color-border);
+    background-color: var(--color-bg-subtle);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  /* Stats card — khusus angka/metrik di dashboard */
+  .stat-card {
+    @extend .card;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    & .stat-label {
+      font-size: var(--font-size-xs);
+      font-weight: 500;
+      color: var(--color-text-subtle);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    & .stat-value {
+      font-size: var(--font-size-2xl);
+      font-weight: 700;
+      color: var(--color-text);
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+    & .stat-delta {
+      font-size: var(--font-size-xs);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    & .stat-delta-up   { color: var(--color-success-text); }
+    & .stat-delta-down { color: var(--color-danger-text); }
+  }
+
+
+  /* ── BADGE / CHIP ────────────────────────────────────────────────────────────
+     Penggunaan:
+       <span class="badge badge-primary">Draft</span>
+       <span class="badge badge-success">Selesai</span>
+       <span class="badge badge-danger">Risiko Tinggi</span>
+       <span class="badge badge-warning">Sedang Berjalan</span>
+       <span class="badge badge-neutral">Belum Dinilai</span>
+  ─────────────────────────────────────────────────────────────────────────── */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3125rem;
+    padding: 0.1875rem 0.5625rem;
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    line-height: 1.4;
+    border-radius: var(--radius-full);
+    border: 1px solid transparent;
+    white-space: nowrap;
+    & svg { width: 0.75em; height: 0.75em; }
+  }
+
+  .badge-primary {
+    background-color: var(--color-primary-bg);
+    color: var(--color-primary-text);
+    border-color: var(--color-primary-border);
+  }
+  .badge-success {
+    background-color: var(--color-success-bg);
+    color: var(--color-success-text);
+    border-color: var(--color-success-border);
+  }
+  .badge-warning {
+    background-color: var(--color-warning-bg);
+    color: var(--color-warning-text);
+    border-color: var(--color-warning-border);
+  }
+  .badge-danger {
+    background-color: var(--color-danger-bg);
+    color: var(--color-danger-text);
+    border-color: var(--color-danger-border);
+  }
+  .badge-neutral {
+    background-color: var(--color-mauve-3);
+    color: var(--color-text-muted);
+    border-color: var(--color-border);
+  }
+
+  /* Dot indicator — untuk status real-time */
+  .badge-dot::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: currentColor;
+    flex-shrink: 0;
+  }
+  .badge-dot-pulse::before {
+    animation: badge-pulse 1.5s ease-in-out infinite;
+  }
+  @keyframes badge-pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.4; }
+  }
+
+
+  /* ── FORM INPUT ──────────────────────────────────────────────────────────────
+     Penggunaan:
+       <div class="form-group">
+         <label class="form-label" for="title">Judul Assessment</label>
+         <input id="title" class="form-input" type="text" />
+         <span class="form-hint">Isi dengan deskripsi singkat</span>
+       </div>
+
+       Error state — tambahkan class .is-error:
+         <input class="form-input is-error" />
+         <span class="form-error">Judul wajib diisi</span>
+  ─────────────────────────────────────────────────────────────────────────── */
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  .form-label {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--color-text);
+    /* :has untuk tandai label saat input invalid — tanpa JS */
+    &:has(+ .form-input.is-error) { color: var(--color-danger-text); }
+  }
+
+  /* Asterisk wajib */
+  .form-label-required::after {
+    content: " *";
+    color: var(--color-danger);
+    font-weight: 600;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    font-size: var(--font-size-sm);
+    font-family: inherit;
+    color: var(--color-text);
+    background-color: white;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-inset);
+    transition:
+      border-color var(--duration-base) var(--ease-out),
+      box-shadow var(--duration-base) var(--ease-out);
+
+    &::placeholder { color: var(--color-text-subtle); }
+
+    &:hover:not(:disabled):not(.is-error) { border-color: var(--color-border-strong); }
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: var(--shadow-focus);
+    }
+
+    &:disabled {
+      background-color: var(--color-bg-subtle);
+      color: var(--color-text-subtle);
+      cursor: not-allowed;
+    }
+
+    &.is-error {
+      border-color: var(--color-danger);
+      &:focus { box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-danger) 20%, transparent); }
+    }
+  }
+
+  textarea.form-input {
+    resize: vertical;
+    min-height: 6rem;
+    /* field-sizing — fitur baru CSS, auto-resize tanpa JS */
+    field-sizing: content;
+  }
+
+  select.form-input {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%235c5470' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    padding-right: 2.25rem;
+    cursor: pointer;
+  }
+
+  .form-hint {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-subtle);
+  }
+
+  .form-error {
+    font-size: var(--font-size-xs);
+    color: var(--color-danger-text);
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    & svg { width: 0.875em; height: 0.875em; flex-shrink: 0; }
+  }
+
+
+  /* ── TABLE ───────────────────────────────────────────────────────────────────
+     Penggunaan:
+       <div class="table-wrap">
+         <table class="table">
+           <thead><tr><th>...</th></tr></thead>
+           <tbody><tr><td>...</td></tr></tbody>
+         </table>
+       </div>
+  ─────────────────────────────────────────────────────────────────────────── */
+  .table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    /* Scrollbar kustom untuk tabel horizontal */
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-mauve-6) transparent;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xs);
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--font-size-sm);
+
+    & thead {
+      background-color: var(--color-bg-subtle);
+      & th {
+        padding: 0.625rem 1rem;
+        text-align: left;
+        font-weight: 600;
+        font-size: var(--font-size-xs);
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--color-text-subtle);
+        border-bottom: 1px solid var(--color-border);
+        white-space: nowrap;
+        user-select: none;
+      }
+    }
+
+    & tbody {
+      & tr {
+        border-bottom: 1px solid var(--color-border-muted);
+        transition: background-color var(--duration-fast);
+        &:last-child { border-bottom: none; }
+        &:hover { background-color: var(--color-bg-subtle); }
+
+        /* Row terpilih — pakai :has untuk deteksi checkbox tanpa JS */
+        &:has(input[type="checkbox"]:checked) {
+          background-color: var(--color-primary-bg);
+        }
+      }
+      & td {
+        padding: 0.75rem 1rem;
+        color: var(--color-text-muted);
+        vertical-align: middle;
+      }
+    }
+  }
+
+  /* Kolom angka — EDAS result table */
+  .table-num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    font-family: var(--font-mono);
+    font-size: var(--font-size-xs);
+  }
+
+  /* Highlight rank 1 */
+  .table-rank-1 {
+    background-color: color-mix(in srgb, var(--color-olive-3) 50%, transparent) !important;
+    & td { font-weight: 500; }
+  }
+
+
+  /* ── ALERT / TOAST ───────────────────────────────────────────────────────────
+     Penggunaan:
+       <div class="alert alert-success">Assessment berhasil dikalkulasi.</div>
+       <div class="alert alert-danger">
+         <svg>...</svg>
+         <span>Lengkapi semua nilai terlebih dahulu.</span>
+       </div>
+  ─────────────────────────────────────────────────────────────────────────── */
+  .alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    border: 1px solid;
+    line-height: 1.5;
+    & svg { width: 1em; height: 1em; flex-shrink: 0; margin-top: 0.1em; }
+  }
+
+  .alert-success { background-color: var(--color-success-bg); color: var(--color-success-text); border-color: var(--color-success-border); }
+  .alert-warning { background-color: var(--color-warning-bg); color: var(--color-warning-text); border-color: var(--color-warning-border); }
+  .alert-danger  { background-color: var(--color-danger-bg);  color: var(--color-danger-text);  border-color: var(--color-danger-border); }
+  .alert-info    { background-color: var(--color-primary-bg); color: var(--color-primary-text); border-color: var(--color-primary-border); }
+
+
+  /* ── SIDEBAR ─────────────────────────────────────────────────────────────────
+     Struktur HTML:
+       <aside class="sidebar">
+         <div class="sidebar-logo">...</div>
+         <nav class="sidebar-nav">
+           <a href="#" class="sidebar-link">...</a>
+           <a href="#" class="sidebar-link sidebar-link-active">...</a>
+         </nav>
+         <div class="sidebar-footer">...</div>
+       </aside>
+  ─────────────────────────────────────────────────────────────────────────── */
+  .sidebar {
+    position: fixed;
+    inset-block: 0;
+    inset-inline-start: 0;
+    width: var(--sidebar-width);
+    background-color: var(--color-sidebar-bg);
+    border-right: 1px solid var(--color-sidebar-border);
+    display: flex;
+    flex-direction: column;
+    z-index: 40;
+    transition: width var(--duration-slow) var(--ease-out);
+    overflow: hidden;
+    /* Scrollable nav kalau banyak item */
+    & .sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 0.5rem;
+      scrollbar-width: thin;
+      scrollbar-color: var(--color-sidebar-border) transparent;
+    }
+  }
+
+  .sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1rem 0.75rem;
+    border-bottom: 1px solid var(--color-sidebar-border);
+    min-height: var(--topbar-height);
+    flex-shrink: 0;
+  }
+
+  .sidebar-section-label {
+    padding: 0.875rem 0.875rem 0.25rem;
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-sidebar-muted);
+  }
+
+  .sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0.875rem;
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--color-sidebar-text);
+    white-space: nowrap;
+    overflow: hidden;
+    transition:
+      background-color var(--duration-base) var(--ease-out),
+      color var(--duration-base) var(--ease-out);
+
+    & svg { width: 1.125rem; height: 1.125rem; flex-shrink: 0; opacity: 0.75; }
+
+    &:hover:not(.sidebar-link-active) {
+      background-color: color-mix(in srgb, var(--color-sidebar-hover) 20%, transparent);
+      color: white;
+      & svg { opacity: 1; }
+    }
+
+    /* :has untuk parent group hover — jika sidebar-link punya children */
+    &:has(+ .sidebar-submenu) { padding-right: 0.625rem; }
+  }
+
+  .sidebar-link-active {
+    background-color: var(--color-sidebar-active);
+    color: white;
+    & svg { opacity: 1; }
+    &:hover { background-color: var(--color-mist-8); }
+  }
+
+  .sidebar-footer {
+    padding: 0.75rem;
+    border-top: 1px solid var(--color-sidebar-border);
+    flex-shrink: 0;
+  }
+
+
+  /* ── TOPBAR ──────────────────────────────────────────────────────────────────*/
+  .topbar {
+    position: fixed;
+    inset-block-start: 0;
+    inset-inline: var(--sidebar-width) 0;
+    height: var(--topbar-height);
+    background-color: white;
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    padding: 0 1.25rem;
+    gap: 1rem;
+    z-index: 30;
+    transition: inset-inline-start var(--duration-slow) var(--ease-out);
+    box-shadow: var(--shadow-xs);
+  }
+
+
+  /* ── MAIN CONTENT ────────────────────────────────────────────────────────────*/
+  .main-content {
+    margin-inline-start: var(--sidebar-width);
+    margin-block-start: var(--topbar-height);
+    padding: 1.5rem;
+    min-height: calc(100dvh - var(--topbar-height));
+    transition: margin-inline-start var(--duration-slow) var(--ease-out);
+  }
+
+  .page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .page-title {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--color-text);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  .page-subtitle {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-subtle);
+    margin-top: 0.25rem;
+  }
+
+
+  /* ── DROPDOWN ────────────────────────────────────────────────────────────────
+     Teknik :has + :focus-within — toggle tanpa JS!
+     Penggunaan:
+       <div class="dropdown">
+         <button class="btn btn-secondary dropdown-trigger">Menu</button>
+         <div class="dropdown-menu">
+           <a href="#" class="dropdown-item">Item 1</a>
+         </div>
+       </div>
+  ─────────────────────────────────────────────────────────────────────────── */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+
+    /* Buka dropdown saat .dropdown-trigger punya :focus atau saat menu di-hover */
+    &:has(.dropdown-trigger:focus) .dropdown-menu,
+    &:has(.dropdown-menu:focus-within) .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+  }
+
+  .dropdown-menu {
+    position: absolute;
+    inset-block-start: calc(100% + 0.375rem);
+    inset-inline-start: 0;
+    min-width: 11rem;
+    background-color: white;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: 0.25rem;
+    z-index: 50;
+    /* Animasi masuk — pure CSS */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition:
+      opacity var(--duration-base) var(--ease-out),
+      visibility var(--duration-base),
+      transform var(--duration-base) var(--ease-out);
+    pointer-events: none;
+  }
+
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4375rem 0.75rem;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background-color var(--duration-fast), color var(--duration-fast);
+    & svg { width: 1em; height: 1em; opacity: 0.7; }
+    &:hover { background-color: var(--color-bg-muted); color: var(--color-text); }
+  }
+
+  .dropdown-item-danger {
+    color: var(--color-danger-text);
+    &:hover { background-color: var(--color-danger-bg); }
+  }
+
+  .dropdown-divider { border-top: 1px solid var(--color-border); margin: 0.25rem 0; }
+
+  .dropdown-right .dropdown-menu { inset-inline: auto 0; }
+
+
+  /* ── MODAL ───────────────────────────────────────────────────────────────────
+     Pakai <details> sebagai toggle tanpa JS.
+     Penggunaan:
+       <details class="modal-wrap">
+         <summary class="btn btn-primary">Buka Modal</summary>
+         <div class="modal-overlay" onclick="this.parentElement.removeAttribute('open')"></div>
+         <div class="modal">
+           <div class="modal-header">...</div>
+           <div class="modal-body">...</div>
+           <div class="modal-footer">...</div>
+         </div>
+       </details>
+  ─────────────────────────────────────────────────────────────────────────── */
+  .modal-wrap {
+    & summary { list-style: none; &::-webkit-details-marker { display: none; } }
+  }
+
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: color-mix(in srgb, var(--color-mauve-12) 50%, transparent);
+    z-index: 60;
+    backdrop-filter: blur(2px);
+    display: none;
+  }
+
+  .modal {
+    position: fixed;
+    inset-block-start: 50%;
+    inset-inline-start: 50%;
+    transform: translate(-50%, -50%);
+    width: min(90vw, 36rem);
+    background-color: white;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    z-index: 70;
+    display: none;
+    flex-direction: column;
+    max-height: calc(100dvh - 3rem);
+    overflow: hidden;
+  }
+
+  details[open].modal-wrap {
+    & .modal-overlay { display: block; }
+    & .modal { display: flex; }
+  }
+
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--color-border);
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .modal-body { padding: 1.25rem; overflow-y: auto; }
+
+  .modal-footer {
+    padding: 0.875rem 1.25rem;
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+
+  /* ── PROGRESS BAR ────────────────────────────────────────────────────────────
+     Penggunaan:
+       <div class="progress">
+         <div class="progress-bar progress-bar-primary" style="width: 75%"></div>
+       </div>
+       <div class="progress-labeled">
+         <span>Selesai</span>
+         <div class="progress progress-sm">
+           <div class="progress-bar progress-bar-success" style="width: 60%"></div>
+         </div>
+         <span>60%</span>
+       </div>
+  ─────────────────────────────────────────────────────────────────────────── */
+  .progress {
+    width: 100%;
+    height: 8px;
+    background-color: var(--color-mauve-4);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+  }
+  .progress-sm { height: 4px; }
+  .progress-lg { height: 12px; }
+
+  .progress-bar {
+    height: 100%;
+    border-radius: var(--radius-full);
+    transition: width 0.5s var(--ease-out);
+  }
+  .progress-bar-primary { background-color: var(--color-primary); }
+  .progress-bar-success { background-color: var(--color-success); }
+  .progress-bar-warning { background-color: var(--color-warning); }
+  .progress-bar-danger  { background-color: var(--color-danger); }
+
+  /* EDAS rank bar — khusus hasil SPK */
+  .edas-score-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: var(--font-size-xs);
+    font-variant-numeric: tabular-nums;
+
+    & .progress { flex: 1; }
+    & .score-value { min-width: 3.5rem; text-align: right; font-family: var(--font-mono); font-weight: 500; }
+  }
+
+
+  /* ── SKELETON LOADER ─────────────────────────────────────────────────────────
+     Pakai di card/tabel saat data belum dimuat.
+     Penggunaan:
+       <div class="skeleton skeleton-text w-48"></div>
+       <div class="skeleton skeleton-rect h-32"></div>
+  ─────────────────────────────────────────────────────────────────────────── */
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--color-mauve-3) 25%,
+      var(--color-mauve-4) 50%,
+      var(--color-mauve-3) 75%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.5s ease-in-out infinite;
+    border-radius: var(--radius-md);
+  }
+  .skeleton-text  { height: 0.875rem; border-radius: var(--radius-sm); }
+  .skeleton-rect  { border-radius: var(--radius-lg); }
+  .skeleton-circle { border-radius: 50%; }
+
+  @keyframes skeleton-shimmer { to { background-position: -200% 0; } }
+
+
+  /* ── TOOLTIP ─────────────────────────────────────────────────────────────────
+     Pure CSS, tanpa JS. Pakai data-tooltip attribute.
+     Penggunaan:
+       <button class="tooltip-host" data-tooltip="Hapus alternatif ini">
+         <svg>...</svg>
+       </button>
+  ─────────────────────────────────────────────────────────────────────────── */
+  .tooltip-host {
+    position: relative;
+
+    &::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      inset-block-end: calc(100% + 0.375rem);
+      inset-inline-start: 50%;
+      transform: translateX(-50%);
+      background-color: var(--color-mauve-12);
+      color: white;
+      font-size: var(--font-size-xs);
+      font-weight: 500;
+      padding: 0.25rem 0.625rem;
+      border-radius: var(--radius-sm);
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity var(--duration-base);
+      z-index: 100;
+    }
+
+    &:hover::after { opacity: 1; }
+  }
+
+
+  /* ── STEP INDICATOR ──────────────────────────────────────────────────────────
+     Untuk alur multi-step assessment.
+     Penggunaan:
+       <ol class="steps">
+         <li class="step step-done">Pilih Alternatif</li>
+         <li class="step step-active">Input Nilai</li>
+         <li class="step">Kalkulasi EDAS</li>
+       </ol>
+  ─────────────────────────────────────────────────────────────────────────── */
+  .steps {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    counter-reset: step;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .step {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    color: var(--color-text-subtle);
+    flex: 1;
+    counter-increment: step;
+
+    &::before {
+      content: counter(step);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: 50%;
+      border: 2px solid var(--color-mauve-6);
+      background-color: white;
+      font-size: var(--font-size-xs);
+      font-weight: 600;
+      flex-shrink: 0;
+      transition: all var(--duration-base) var(--ease-out);
+    }
+
+    /* Garis penghubung */
+    &:not(:last-child)::after {
+      content: "";
+      flex: 1;
+      height: 2px;
+      background-color: var(--color-mauve-5);
+      margin: 0 0.25rem;
+      transition: background-color var(--duration-slow);
+    }
+  }
+
+  .step-done {
+    color: var(--color-success-text);
+    &::before {
+      content: "✓";
+      background-color: var(--color-success);
+      border-color: var(--color-success);
+      color: white;
+    }
+    &:not(:last-child)::after { background-color: var(--color-success); }
+  }
+
+  .step-active {
+    color: var(--color-primary-text);
+    font-weight: 600;
+    &::before {
+      border-color: var(--color-primary);
+      color: var(--color-primary-text);
+      background-color: var(--color-primary-bg);
+      box-shadow: var(--shadow-focus);
+    }
+  }
+
+
+  /* ── RANK MEDAL ──────────────────────────────────────────────────────────────
+     Khusus untuk tabel hasil EDAS — indikator ranking visual.
+  ─────────────────────────────────────────────────────────────────────────── */
+  .rank-medal {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .rank-1 { background-color: #fef3c7; color: #92400e; border: 2px solid #f59e0b; }
+  .rank-2 { background-color: #f1f5f9; color: #475569; border: 2px solid #94a3b8; }
+  .rank-3 { background-color: #fef3e2; color: #9a3412; border: 2px solid #f97316; }
+  .rank-n { background-color: var(--color-mauve-3); color: var(--color-text-subtle); border: 2px solid var(--color-border); }
+
+} /* end @layer components */
+
+
+/* =============================================================================
+   UTILITIES — custom utility class yang tidak tersedia di Tailwind core
+   ============================================================================= */
+
+@layer utilities {
+
+  /* Text truncate multi-line — dipakai di card deskripsi */
+  .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+
+  /* Gradient text — untuk angka AS score di halaman hasil */
+  .text-gradient-primary {
+    background: linear-gradient(135deg, var(--color-mist-9), var(--color-mist-7));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Focus ring custom */
+  .focus-ring:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+    border-radius: var(--radius-md);
+  }
+
+  /* Divider dengan label di tengah */
+  .divider-label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--color-text-subtle);
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    &::before, &::after { content: ""; flex: 1; height: 1px; background-color: var(--color-border); }
+  }
+
+  /* Animasi slide-in untuk notifikasi / alert */
+  .animate-slide-in-top {
+    animation: slide-in-top var(--duration-slow) var(--ease-out) both;
+  }
+  @keyframes slide-in-top {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-fade-in {
+    animation: fade-in var(--duration-slow) var(--ease-out) both;
+  }
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
 }

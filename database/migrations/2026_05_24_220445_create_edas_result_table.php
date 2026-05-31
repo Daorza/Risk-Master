@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('edas_result', function (Blueprint $table) {
+        Schema::create('edas_results', function (Blueprint $table) {
             $table->id();
 
             $table->foreignId('assessment_id')
@@ -41,7 +41,7 @@ return new class extends Migration
             $table->decimal('appraisal_score', 8, 6)->default(0.000000)->comment('Appraisal Score (AS = (NSP + NSN) / 2, range 0-1)');
             $table->unsignedSmallInteger('rank')->comment('Peringkat alternatif (1 = terbaik), urut berdasarkan appraisal_score dari yang tertinggi ke terendah');
 
-            $table->timestamps('calculated_at')->useCurrent()->comment('Waktu kalkulasi EDAS dijalankan');
+            $table->timestamp('calculated_at')->useCurrent()->comment('Waktu kalkulasi EDAS dijalankan');
 
             $table->unique(['assessment_id', 'alternative_id'], 'uq_edas_assessment_alternative');
 
@@ -55,6 +55,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('edas_result');
+        Schema::dropIfExists('edas_results');
     }
 };

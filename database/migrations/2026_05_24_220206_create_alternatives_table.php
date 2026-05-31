@@ -25,8 +25,8 @@ return new class extends Migration
                 ->comment('Siapa yang membuat alternatif ini.');
 
             $table->index('source');
-            $table->index('creaded_by');
-            
+            $table->index('created_by');
+
             $table->timestamps();
         });
     }

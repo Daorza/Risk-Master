@@ -29,7 +29,7 @@ return new class extends Migration
 
             $table->string('ip_address', 45)->nullable()->comment('IP address client. 45 untuk IPv6 support');
 
-            $table->timestamps('created_at')->useCurrent()->comment('Waktu aksi dilakukan');
+            $table->timestamp('created_at')->useCurrent()->comment('Waktu aksi dilakukan');
 
             $table->index('user_id');
             $table->index('table_name');
