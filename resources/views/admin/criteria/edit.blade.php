@@ -5,7 +5,8 @@
 @section('content')
 <div class="max-w-lg">
     <div class="bg-white rounded-xl border border-gray-200 p-6">
-        <form method="POST" action="{{ route('admin.criteria.update', $criteria) }}" class="space-y-5">
+        {{-- Fix: ['criterium' => $criteria] agar cocok dengan route {criterium} --}}
+        <form method="POST" action="{{ route('admin.criteria.update', ['criterium' => $criteria]) }}" class="space-y-5">
             @csrf @method('PUT')
 
             <div>

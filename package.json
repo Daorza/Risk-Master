@@ -3,12 +3,14 @@
     "private": true,
     "type": "module",
     "scripts": {
+        "dev": "concurrently --kill-others --names \"vite,artisan\" --prefix-colors \"cyan,green\" \"vite\" \"php artisan serve\"",
         "build": "vite build",
-        "dev": "vite"
+        "serve": "php artisan serve",
+        "vite": "vite"
     },
     "devDependencies": {
         "@tailwindcss/vite": "^4.3.0",
-        "concurrently": "^9.0.1",
+        "concurrently": "^9.2.1",
         "laravel-vite-plugin": "^3.1",
         "tailwindcss": "^4.3.0",
         "vite": "^8.0.0"

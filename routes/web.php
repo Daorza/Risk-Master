@@ -52,6 +52,7 @@ Route::middleware('auth')->group(function () {
     // Admin only
     Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
         Route::resource('users', AdminUserController::class);
-        Route::resource('criteria', AdminCriteriaController::class);
+        Route::resource('criteria', AdminCriteriaController::class)
+            ->parameters(['criteria' => 'criterium']);
     });
 });

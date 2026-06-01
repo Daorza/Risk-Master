@@ -62,9 +62,10 @@
                         </td>
                         <td class="px-4 py-4">
                             <div class="flex items-center gap-3 justify-end">
-                                <a href="{{ route('admin.criteria.edit', $c) }}"
+                                {{-- Fix: pass ['criterium' => $c] agar nama parameter cocok dengan route {criterium} --}}
+                                <a href="{{ route('admin.criteria.edit', ['criterium' => $c]) }}"
                                    class="text-xs text-blue-600 hover:underline">Edit</a>
-                                <form method="POST" action="{{ route('admin.criteria.destroy', $c) }}"
+                                <form method="POST" action="{{ route('admin.criteria.destroy', ['criterium' => $c]) }}"
                                       onsubmit="return confirm('Hapus kriteria ini? Data EDAS terkait akan terpengaruh.')">
                                     @csrf @method('DELETE')
                                     <button class="text-xs text-red-500 hover:underline">Hapus</button>
