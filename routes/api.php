@@ -12,15 +12,15 @@ use App\Http\Controllers\Api\ReportController;
 // ── Public ───────────────────────────────────────────────────────────────────
 
 Route::prefix('auth')->group(function () {
-    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/login', [AuthController::class, 'login'])->name('api.auth.login');
 });
 
 // ── Auth protected ────────────────────────────────────────────────────────────
 
 Route::middleware('auth:sanctum')->prefix('auth')->group(function () {
-    Route::post('/logout',     [AuthController::class, 'logout']);
-    Route::post('/logout-all', [AuthController::class, 'logoutAll']);
-    Route::get('/me',          [AuthController::class, 'me']);
+    Route::post('/logout',     [AuthController::class, 'logout'])->name('api.auth.logout');
+    Route::post('/logout-all', [AuthController::class, 'logoutAll'])->name('api.auth.logout-all');
+    Route::get('/me',          [AuthController::class, 'me'])->name('api.auth.me');
 });
 
 // ── Resource routes ───────────────────────────────────────────────────────────
@@ -30,12 +30,14 @@ Route::middleware('auth:sanctum')->group(function () {
     // Admin only
     Route::middleware('admin')->group(function () {
         Route::apiResource('users',    UserController::class);
-        Route::apiResource('criteria', CriteriaController::class); // Fix 1: bukan AssessmentController
+
+        Route::apiResource('criteria', CriteriaController::class);
     });
 
     // Semua user yang ter-autentikasi
     Route::apiResource('alternatives', AlternativeController::class);
-    Route::apiResource('assessments',  AssessmentController::class);
+
+    Route::apiResource('assessments', AssessmentController::class);
 
     // Nested assessment routes
     Route::prefix('assessments/{assessment}')->group(function () { // Fix 2: tutup kurung kurawal

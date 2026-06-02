@@ -11,6 +11,8 @@ class Criteria extends Model
 {
     use HasFactory;
 
+    protected $table = 'criteria';
+
     const TYPE_BENEFIT = 'benefit';
     const TYPE_COST = 'cost';
 
@@ -24,6 +26,11 @@ class Criteria extends Model
     protected $casts = [
         'weight' => 'float',
     ];
+
+    public function getRouteKeyName(): string
+    {
+        return 'id';
+    }
 
     public function alternativeValues(): HasMany
     {
