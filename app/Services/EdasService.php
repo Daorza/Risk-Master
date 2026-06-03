@@ -79,7 +79,8 @@ class EdasService
         }
 
         foreach ($valueRows as $row) {
-            if (isset($matrix[$row->alternative_id][$row->criteria_id])) {
+            if (array_key_exists($row->alternative_id, $matrix)
+                && array_key_exists($row->criteria_id, $matrix[$row->alternative_id])) {
                 $matrix[$row->alternative_id][$row->criteria_id] = (float) $row->value;
             }
         }
