@@ -11,6 +11,32 @@
            class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition">
             ← Detail Assessment
         </a>
+
+            {{-- Edit & Hitung Ulang --}}
+        <form method="POST" action="{{ route('assessments.recalculate', $assessment) }}"
+            onsubmit="return confirm('Reset hasil EDAS dan edit nilai? Hasil kalkulasi saat ini akan dihapus.')">
+            @csrf
+            <button type="submit"
+                    class="bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                </svg>
+                Edit & Hitung Ulang
+            </button>
+        </form>
+
+        {{-- Export Excel --}}
+        <a href="{{ route('assessments.report.excel', $assessment) }}"
+           class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            Download Excel
+        </a>
+
+        {{-- Export PDF --}}
         <a href="{{ route('assessments.report.pdf', $assessment) }}" target="_blank"
            class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2">
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -26,22 +52,22 @@
     @php $top = $results->first(); @endphp
     <div class="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl p-6 text-white">
         <p class="text-sm text-blue-200 font-medium mb-1">🏆 Rekomendasi Utama</p>
-        <h2 class="text-2xl font-bold">{{ $top->alternative?->name }}</h2>
+        <h2 class="text-2xl text-blue-100 font-bold">{{ $top->alternative?->name }}</h2>
         @if($top->alternative?->description)
             <p class="text-blue-200 text-sm mt-1">{{ $top->alternative->description }}</p>
         @endif
         <div class="mt-4 flex items-center gap-6 text-sm">
             <div>
                 <p class="text-blue-300 text-xs">Appraisal Score</p>
-                <p class="font-bold text-xl">{{ number_format($top->appraisal_score, 4) }}</p>
+                <p class="text-blue-300 font-bold text-xl">{{ number_format($top->appraisal_score, 4) }}</p>
             </div>
             <div>
                 <p class="text-blue-300 text-xs">NSP</p>
-                <p class="font-semibold">{{ number_format($top->nsp, 4) }}</p>
+                <p class="text-blue-300 font-semibold">{{ number_format($top->nsp, 4) }}</p>
             </div>
             <div>
                 <p class="text-blue-300 text-xs">NSN</p>
-                <p class="font-semibold">{{ number_format($top->nsn, 4) }}</p>
+                <p class="text-blue-300 font-semibold">{{ number_format($top->nsn, 4) }}</p>
             </div>
         </div>
     </div>

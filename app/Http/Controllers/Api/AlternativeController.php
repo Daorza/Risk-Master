@@ -19,12 +19,35 @@ class AlternativeController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $alternatives = Alternative::query()
+        $query = Alternative::query()
             ->with('creator:id,name')
-            ->when($request->source, fn($q) => $q->where('source', $request->source))
-            ->when($request->search, fn($q) => $q->where('name', 'like', "%{$request->search}%"))
-            ->orderBy('name')
-            ->paginate($request->per_page ?? 20);
+            ->when($request->source, fn($q) => $q->where('source', $request->source));
+
+        if ($request->filled('search')) {
+            $keyword = mb_strtolower(trim($request->search));
+            $perPage = $request->per_page ?? 20;
+            $page = $request->get('page', 1);
+
+            $all = $query->get()
+                ->filter(fn($alt) => str_contains(mb_strtolower($alt->name), $keyword))
+                ->sortBy('name');
+                ->values();
+
+            $total = $all->count();
+            $items = $all->slice(($page - 1) * $perPage, $perPage)->values();
+
+            return $this->success([
+                'alternatives' => AlternativeResource::collection($items),
+                'meta' => [
+                    'current_page' => (int) $page,
+                    'last_page' => (int) ceil($total / $perPage),
+                    'total' => $total,
+                    'per_page' => $perPage,
+                ],
+            ]);
+        }
+
+        $alternatives = $query->orderBy('id')->paginate($request->per_page ?? 20);
 
         return $this->success([
             'alternatives' => AlternativeResource::collection($alternatives->items()),

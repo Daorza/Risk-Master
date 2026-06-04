@@ -5,17 +5,40 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Models\Alternative;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class AlternativeController extends Controller
 {
     public function index(Request $request)
     {
-        $alternatives = Alternative::with('creator:id,name')
-            ->when($request->source, fn($q) => $q->where('source', $request->source))
-            ->when($request->search, fn($q) => $q->where('name', 'like', "%{$request->search}%"))
-            ->orderBy('name')
-            ->paginate(15)
-            ->withQueryString();
+        $query = Alternative::with('creator:id,name')
+            ->when($request->source, fn($q) => $q->where('source', $request->source));
+
+        if ($request->filled('search')) {
+            $keyword = mb_Strtolower(trim($request->search));
+
+            $alternatives = $query->get()
+                ->filter(fn($alt) => str_contains(mb_strtolower($alt->name), $keyword))
+                ->sortBy('name');
+
+            $page = $request->get('page', 1);
+            $perPage = 15;
+            $total = $alternatives->count();
+            $items = $alternatives->slice(($page - 1) * $perPage, $perPage)->values();
+
+            $alternatives = new LengthAwarePaginator(
+                $items,
+                $total,
+                $perPage,
+                $page,
+                ['path' => $request->url(), 'query' => $request->query()],
+            );
+        } else {
+            $alternatives = $query
+                ->orderBy('name')
+                ->paginate(15)
+                ->withQueryString();
+        }
 
         return view('alternatives.index', compact('alternatives'));
     }

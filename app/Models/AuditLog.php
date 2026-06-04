@@ -26,8 +26,9 @@ class AuditLog extends Model
     ];
 
     protected $casts = [
-        'old_data' => 'array',
-        'new_data' => 'array',
+        'old_data' => 'encrypted:array',
+        'new_data' => 'encrypted:array',
+        'ip_address' => 'encrypted',
         'created_at' => 'datetime',
     ];
 

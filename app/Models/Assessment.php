@@ -25,8 +25,9 @@ class Assessment extends Model
 
     // Cast ke Carbon dari eloquent
     protected $casts = [
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
+        'status' => 'string',
+        'title' => 'encrypted',
+        'description' => 'encrypted',
     ];
 
     // Default value
