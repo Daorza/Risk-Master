@@ -7,8 +7,11 @@ use App\Models\Alternative;
 use App\Models\AlternativeValue;
 use App\Models\Assessment;
 use App\Models\Criteria;
+use App\Models\EdasResult;
 use App\Services\EdasService;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\EdasResultExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
@@ -247,6 +250,39 @@ class AssessmentController extends Controller
         ])->setPaper('a4', 'landscape');
 
         return $pdf->download('hasil-edas-' . $assessment->id . '.pdf');
+    }
+
+    public function reportExcel(Request $request, Assessment $assessment)
+    {
+        $this->authorizeAssessment($request, $assessment);
+
+        if ($assessment->isDraft()) {
+            return back()->with('error', 'Assessment belum dikalkulasi.');
+        }
+
+        return Excel::download(
+            new EdasResultExport($assessment),
+            'hasil-edas-' . $assessment->id . '.xlsx'
+        );
+    }
+
+    public function recalculate(Request $request, Assessment $assessment)
+    {
+        $this->authorizeAssessment($request, $assessment);
+
+        if ($assessment->isDraft()) {
+            return redirect()
+                ->route('assessments.values.edit', $assessment)
+                ->with('info', 'Assessment sudah dalam status draft.');
+        }
+
+        EdasResult::where('assessment_id', $assessment->id)->delete();
+
+        $assessment->update(['status' => Assessment::STATUS_DRAFT]);
+
+        return redirect()
+            ->route('assessments.values.edit', $assessment)
+            ->with('info', 'Silakan edit nilai matrix lalu hitung ulang.');
     }
 
     private function authorizeAssessment(Request $request, Assessment $assessment): void

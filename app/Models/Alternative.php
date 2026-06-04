@@ -23,6 +23,24 @@ class Alternative extends Model
         'created_by',
     ];
 
+    protected $casts = [
+        'name' => 'encrypted',
+        'description' => 'encrypted',
+    ];
+
+    protected static function booted(): void
+    {
+        static::saving(function (Alternative $model) {
+            if ($model->isDirty('name') || empty($model->name_hash)) {
+                $model->name_hash = hash_hmac(
+                    'sha256',
+                    mb_strtolower(trim($model->getAttributes()['name'] ?? '')),
+                    config('app.key'),
+                );
+            }
+        });
+    }
+
     protected $attributes = [
         'source' => self::SOURCE_ADMIN,
     ];
@@ -65,6 +83,13 @@ class Alternative extends Model
     public function scopeCreatedBy(Builder $query, int $userId): Builder
     {
         return $query->where('created_by', $userId);
+    }
+
+    public function scopeSearchByName(Builder $query, string $keyword): Builder
+    {
+        $hash = hash_hmac('sha256', mb_strtolower(trim($keyword)), config('app.key'));
+
+        return $query->where('name_hash', $hash);
     }
 
     public function getSourceLabelAttribute(): string

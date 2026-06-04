@@ -45,8 +45,13 @@
                     </a>
                 @else
                     <a href="{{ route('assessments.results', $assessment) }}"
-                       class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition">
+                       class="bg-olive-600 hover:bg-olive-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition">
                         Lihat Hasil EDAS
+                    </a>
+                    <a href="{{ route('assessments.report.excel', $assessment) }}"
+                       target="_blank"
+                       class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition">
+                        Download Excel
                     </a>
                     <a href="{{ route('assessments.report.pdf', $assessment) }}"
                        target="_blank"
