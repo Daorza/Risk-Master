@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Web\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Rules\StrongPassword;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
@@ -34,7 +34,7 @@ class UserController extends Controller
         $validated = $request->validate([
             'name'     => ['required', 'string', 'max:255'],
             'email'    => ['required', 'string', 'email', 'unique:users'],
-            'password' => ['required', Password::defaults(), 'confirmed'],
+            'password' => ['required', StrongPassword::requiredOffline(), 'confirmed'],
             'role'     => ['required', Rule::in(['user', 'admin'])],
         ]);
 
@@ -60,7 +60,7 @@ class UserController extends Controller
         $validated = $request->validate([
             'name'     => ['required', 'string', 'max:255'],
             'email'    => ['required', 'string', 'email', Rule::unique('users')->ignore($user->id)],
-            'password' => ['nullable', Password::defaults(), 'confirmed'],
+            'password' => ['nullable', StrongPassword::requiredOffline(), 'confirmed'],
             'role'     => ['required', Rule::in(['user', 'admin'])],
         ]);
 
