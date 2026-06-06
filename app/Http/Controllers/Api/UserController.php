@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
+use App\Rules\StrongPassword;
 
 class UserController extends Controller
 {
@@ -49,7 +50,7 @@ class UserController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required',  Password::defaults()],
+            'password' => ['required',  StrongPassword::requiredOffline()],
             'role' => ['sometimes', Rule::in(['user', 'admin'])],
         ]);
 
@@ -98,7 +99,7 @@ class UserController extends Controller
         $validated = $request->validate([
             'name' => ['sometimes', 'string', 'max:255'],
             'email' => ['sometimes', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
-            'password' => ['sometimes', Password::defaults()],
+            'password' => ['sometimes', 'nullable', StrongPassword::requiredOffline()],
             'role' => ['sometimes', Rule::in(['user', 'admin'])],
         ]);
 

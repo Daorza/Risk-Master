@@ -25,6 +25,20 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin' => \App\Http\Middleware\EnsureIsAdmin::class,
             'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         ]);
+
+        $middleware->web(append: [
+            \App\Http\Middleware\SecurityHeaders::class,
+            \App\Http\Middleware\PreventPhising::class,
+            \App\Http\Middleware\LoginRateLimiter::class,
+            \App\Http\Middleware\SecurityHeadersAndProtection::class,
+            \App\Http\Middleware\WebLoginRateLimiter::class,
+        ]);
+
+        $middleware->api(append: [
+            \App\Http\Middleware\SecurityHeadersAndProtection::class,
+        ]);
+
+        $middleware->encryptCookies();
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->render(function (AuthenticationException $e, Request $request) {

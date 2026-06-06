@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
-
+use App\Rules\StrongPassword;
 
 class StoreUserRequest extends FormRequest
 {
@@ -28,7 +28,7 @@ class StoreUserRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', Password::min(8)->letters()->numbers(), 'confirmed'],
+            'password' => ['required', Password::defaults(), 'confirmed'],
             'role' => ['required', Rule::in(['user', 'admin'])],
         ];
     }

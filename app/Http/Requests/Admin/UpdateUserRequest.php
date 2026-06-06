@@ -6,6 +6,7 @@ use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
+use App\Rules\StrongPassword;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -29,7 +30,7 @@ class UpdateUserRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['sometimes', 'string', 'email', Rule::unique('users', 'email')->ignore($userId)],
-            'password' => ['nullable', Password::min(8)->letters()->numbers(), 'confirmed'],
+            'password' => ['nullable', Password::defaults(), 'confirmed'],
             'role' => ['sometimes', Rule::in(['user', 'admin'])],
         ];
     }
