@@ -30,7 +30,7 @@ class AlternativeController extends Controller
 
             $all = $query->get()
                 ->filter(fn($alt) => str_contains(mb_strtolower($alt->name), $keyword))
-                ->sortBy('name');
+                ->sortBy('name')
                 ->values();
 
             $total = $all->count();

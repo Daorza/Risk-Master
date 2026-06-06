@@ -15,13 +15,8 @@ class ReportController extends Controller
 {
     use ApiResponse;
 
-    public function pdf(Request $request,Assessment $assessment)
+    public function pdf(Request $request, Assessment $assessment)
     {
-        $user = $request->user();
-
-        if ($user->role !== 'admin' && $assessment->user_id !== $user->id) {
-            return response()->json(['status' => 'error', 'message' => 'Forbidden'], 403);
-        }
 
         if ($assessment->isDraft()) {
             return response()->json([
@@ -47,11 +42,6 @@ class ReportController extends Controller
 
     public function excel(Request $request, Assessment $assessment)
     {
-        $user = $request->user();
-
-        if ($user->role !== 'admin' && $assessment->user_id !== $user->id) {
-            return response()->json(['status' => 'error', 'message' => 'Forbidden'], 403);
-        }
 
         if ($assessment->isDraft()) {
             return response()->json([

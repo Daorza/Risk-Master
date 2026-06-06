@@ -3,7 +3,7 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "dev": "concurrently --kill-others --names \"vite,artisan\" --prefix-colors \"cyan,green\" \"vite\" \"php artisan serve\"",
+        "dev": "concurrently --kill-others --names \"vite,artisan\" --prefix-colors \"cyan,green\" \"vite\" \"php artisan serve --host=0.0.0.0\"",
         "build": "vite build",
         "serve": "php artisan serve",
         "vite": "vite"
