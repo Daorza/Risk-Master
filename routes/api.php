@@ -40,7 +40,11 @@ Route::middleware('auth:sanctum')->name('api.')->group(function () {
         Route::post('values',                       [AssessmentController::class, 'storeValues'])->name('assessments.values.store');
         Route::post('alternatives',                 [AssessmentController::class, 'attachAlternatives'])->name('assessments.alternatives.attach');
         Route::delete('alternatives/{alternative}', [AssessmentController::class, 'detachAlternative'])->name('assessments.alternatives.detach');
-        Route::get('report/pdf',                    [ReportController::class,     'pdf'])->name('assessments.report.pdf');
-        Route::get('report/excel',                  [ReportController::class,     'excel'])->name('assessments.report.excel');
     });
+});
+
+// Public Report Routes (for easy download via browser without token)
+Route::prefix('assessments/{assessment}')->group(function () {
+    Route::get('report/pdf',                    [ReportController::class,     'pdf'])->name('assessments.report.pdf');
+    Route::get('report/excel',                  [ReportController::class,     'excel'])->name('assessments.report.excel');
 });
