@@ -3,139 +3,125 @@
 @section('header', 'Tambah User Baru')
 
 @section('content')
-<div class="max-w-lg">
-    <div class="bg-white rounded-xl border border-gray-200 p-6">
-        <form method="POST" action="{{ route('admin.users.store') }}" class="space-y-5" id="form-create-user">
-            @csrf
+<div class="max-w-lg mx-auto">
+    <div class="card">
+        <div class="card-body">
+            <form method="POST" action="{{ route('admin.users.store') }}" style="display:flex; flex-direction:column; gap:1.25rem;" id="form-create-user">
+                @csrf
 
-            {{-- Nama --}}
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">
-                    Nama <span class="text-red-500">*</span>
-                </label>
-                <input type="text" name="name" value="{{ old('name') }}" required
-                       class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500
-                              @error('name') border-red-400 @enderror">
-                @error('name')
-                    <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
-                @enderror
-            </div>
+                {{-- Nama --}}
+                <div class="form-group">
+                    <label class="form-label form-label-required">Nama</label>
+                    <input type="text" name="name" value="{{ old('name') }}" required
+                           class="form-input {{ $errors->has('name') ? 'is-error' : '' }}">
+                    @error('name')
+                        <span class="form-error">{{ $message }}</span>
+                    @enderror
+                </div>
 
-            {{-- Email --}}
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">
-                    Email <span class="text-red-500">*</span>
-                </label>
-                <input type="email" name="email" value="{{ old('email') }}" required
-                       class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500
-                              @error('email') border-red-400 @enderror">
-                @error('email')
-                    <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
-                @enderror
-            </div>
+                {{-- Email --}}
+                <div class="form-group">
+                    <label class="form-label form-label-required">Email</label>
+                    <input type="email" name="email" value="{{ old('email') }}" required
+                           class="form-input {{ $errors->has('email') ? 'is-error' : '' }}">
+                    @error('email')
+                        <span class="form-error">{{ $message }}</span>
+                    @enderror
+                </div>
 
-            {{-- Password --}}
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">
-                    Password <span class="text-red-500">*</span>
-                </label>
-                <div class="relative">
-                    <input type="password" name="password" id="password" required
-                           autocomplete="new-password"
-                           class="w-full border border-gray-300 rounded-lg px-3 py-2.5 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500
-                                  @error('password') border-red-400 @enderror">
+                {{-- Password --}}
+                <div class="form-group">
+                    <label class="form-label form-label-required">Password</label>
+                    <div class="relative">
+                        <input type="password" name="password" id="password" required
+                               autocomplete="new-password"
+                               class="form-input {{ $errors->has('password') ? 'is-error' : '' }}" style="padding-right:2.5rem;">
                     {{-- Toggle show/hide --}}
-                    <button type="button" onclick="togglePassword('password', 'eye-password')"
-                            class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
-                        <svg id="eye-password" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                        </svg>
-                    </button>
-                </div>
-
-                {{-- Strength bar --}}
-                <div class="mt-2 space-y-2" id="password-feedback">
-                    {{-- Progress bar --}}
-                    <div class="flex gap-1">
-                        <div id="bar-1" class="h-1.5 flex-1 rounded-full bg-gray-200 transition-colors duration-300"></div>
-                        <div id="bar-2" class="h-1.5 flex-1 rounded-full bg-gray-200 transition-colors duration-300"></div>
-                        <div id="bar-3" class="h-1.5 flex-1 rounded-full bg-gray-200 transition-colors duration-300"></div>
-                        <div id="bar-4" class="h-1.5 flex-1 rounded-full bg-gray-200 transition-colors duration-300"></div>
+                        <button type="button" onclick="togglePassword('password', 'eye-password')"
+                                class="absolute right-3 top-1/2 -translate-y-1/2" style="color:var(--color-text-subtle);">
+                            <svg id="eye-password" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                            </svg>
+                        </button>
                     </div>
-                    {{-- Label kekuatan --}}
-                    <p id="strength-label" class="text-xs text-gray-400"></p>
 
-                    {{-- Checklist syarat --}}
-                    <ul class="space-y-1 mt-2">
-                        <li id="req-length"   class="flex items-center gap-2 text-xs text-gray-400">
-                            <span id="icon-length"   class="w-3.5 h-3.5">○</span> Minimal 8 karakter
-                        </li>
-                        <li id="req-upper"    class="flex items-center gap-2 text-xs text-gray-400">
-                            <span id="icon-upper"    class="w-3.5 h-3.5">○</span> Huruf kapital (A–Z)
-                        </li>
-                        <li id="req-lower"    class="flex items-center gap-2 text-xs text-gray-400">
-                            <span id="icon-lower"    class="w-3.5 h-3.5">○</span> Huruf kecil (a–z)
-                        </li>
-                        <li id="req-number"   class="flex items-center gap-2 text-xs text-gray-400">
-                            <span id="icon-number"   class="w-3.5 h-3.5">○</span> Angka (0–9)
-                        </li>
-                        <li id="req-symbol"   class="flex items-center gap-2 text-xs text-gray-400">
-                            <span id="icon-symbol"   class="w-3.5 h-3.5">○</span> Simbol (!@#$%^&* dll)
-                        </li>
-                    </ul>
+                    {{-- Strength bar --}}
+                    <div style="margin-top:0.5rem; display:flex; flex-direction:column; gap:0.5rem;" id="password-feedback">
+                        {{-- Progress bar --}}
+                        <div class="flex gap-1">
+                            <div id="bar-1" style="height:0.375rem; flex:1; border-radius:9999px; background:var(--glass-bg); transition:background-color 0.3s;"></div>
+                            <div id="bar-2" style="height:0.375rem; flex:1; border-radius:9999px; background:var(--glass-bg); transition:background-color 0.3s;"></div>
+                            <div id="bar-3" style="height:0.375rem; flex:1; border-radius:9999px; background:var(--glass-bg); transition:background-color 0.3s;"></div>
+                            <div id="bar-4" style="height:0.375rem; flex:1; border-radius:9999px; background:var(--glass-bg); transition:background-color 0.3s;"></div>
+                        </div>
+                        {{-- Label kekuatan --}}
+                        <p id="strength-label" style="font-size:var(--font-size-xs); color:var(--color-text-subtle);"></p>
+
+                        {{-- Checklist syarat --}}
+                        <ul style="display:flex; flex-direction:column; gap:0.25rem; margin-top:0.5rem;">
+                            <li id="req-length"   style="display:flex; align-items:center; gap:0.5rem; font-size:var(--font-size-xs); color:var(--color-text-subtle);">
+                                <span id="icon-length"   class="w-3.5 h-3.5">○</span> Minimal 8 karakter
+                            </li>
+                            <li id="req-upper"    style="display:flex; align-items:center; gap:0.5rem; font-size:var(--font-size-xs); color:var(--color-text-subtle);">
+                                <span id="icon-upper"    class="w-3.5 h-3.5">○</span> Huruf kapital (A–Z)
+                            </li>
+                            <li id="req-lower"    style="display:flex; align-items:center; gap:0.5rem; font-size:var(--font-size-xs); color:var(--color-text-subtle);">
+                                <span id="icon-lower"    class="w-3.5 h-3.5">○</span> Huruf kecil (a–z)
+                            </li>
+                            <li id="req-number"   style="display:flex; align-items:center; gap:0.5rem; font-size:var(--font-size-xs); color:var(--color-text-subtle);">
+                                <span id="icon-number"   class="w-3.5 h-3.5">○</span> Angka (0–9)
+                            </li>
+                            <li id="req-symbol"   style="display:flex; align-items:center; gap:0.5rem; font-size:var(--font-size-xs); color:var(--color-text-subtle);">
+                                <span id="icon-symbol"   class="w-3.5 h-3.5">○</span> Simbol (!@#$%^&* dll)
+                            </li>
+                        </ul>
+                    </div>
+
+                    @error('password')
+                        <span class="form-error">{{ $message }}</span>
+                    @enderror
                 </div>
 
-                @error('password')
-                    <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
-                @enderror
-            </div>
+                {{-- Konfirmasi Password --}}
+                <div class="form-group">
+                    <label class="form-label form-label-required">Konfirmasi Password</label>
+                    <div class="relative">
+                        <input type="password" name="password_confirmation" id="password_confirmation" required
+                               autocomplete="new-password"
+                               class="form-input" style="padding-right:2.5rem;">
+                        <button type="button" onclick="togglePassword('password_confirmation', 'eye-confirm')"
+                                class="absolute right-3 top-1/2 -translate-y-1/2" style="color:var(--color-text-subtle);">
+                            <svg id="eye-confirm" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <span id="match-msg" class="form-error hidden" style="margin-top:0.25rem;"></span>
+                </div>
 
-            {{-- Konfirmasi Password --}}
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">
-                    Konfirmasi Password <span class="text-red-500">*</span>
-                </label>
-                <div class="relative">
-                    <input type="password" name="password_confirmation" id="password_confirmation" required
-                           autocomplete="new-password"
-                           class="w-full border border-gray-300 rounded-lg px-3 py-2.5 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <button type="button" onclick="togglePassword('password_confirmation', 'eye-confirm')"
-                            class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
-                        <svg id="eye-confirm" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                        </svg>
+                {{-- Role --}}
+                <div class="form-group">
+                    <label class="form-label form-label-required">Role</label>
+                    <select name="role" required class="form-input">
+                        <option value="user"  @selected(old('role') === 'user')>User</option>
+                        <option value="admin" @selected(old('role') === 'admin')>Admin</option>
+                    </select>
+                </div>
+
+                <div style="display:flex; align-items:center; gap:0.75rem; margin-top:0.5rem;">
+                    <button type="submit" id="btn-submit" class="btn btn-primary disabled:opacity-50 disabled:cursor-not-allowed">
+                        Buat User
                     </button>
+                    <a href="{{ route('admin.users.index') }}" class="btn btn-ghost">Batal</a>
                 </div>
-                <p id="match-msg" class="text-xs mt-1 hidden"></p>
-            </div>
-
-            {{-- Role --}}
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">
-                    Role <span class="text-red-500">*</span>
-                </label>
-                <select name="role" required
-                        class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="user"  @selected(old('role') === 'user')>User</option>
-                    <option value="admin" @selected(old('role') === 'admin')>Admin</option>
-                </select>
-            </div>
-
-            <div class="flex gap-3 pt-2">
-                <button type="submit" id="btn-submit"
-                        class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition disabled:opacity-50 disabled:cursor-not-allowed">
-                    Buat User
-                </button>
-                <a href="{{ route('admin.users.index') }}"
-                   class="text-sm text-gray-500 hover:text-gray-700 self-center">Batal</a>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>
 
@@ -170,11 +156,11 @@
     };
 
     const levels = [
-        { color: 'bg-red-400',    text: 'Sangat Lemah',  textClass: 'text-red-500' },
-        { color: 'bg-orange-400', text: 'Lemah',         textClass: 'text-orange-500' },
-        { color: 'bg-yellow-400', text: 'Cukup',         textClass: 'text-yellow-600' },
-        { color: 'bg-blue-500',   text: 'Kuat',          textClass: 'text-blue-600' },
-        { color: 'bg-green-500',  text: 'Sangat Kuat',   textClass: 'text-green-600' },
+        { color: 'var(--color-danger-text)',  text: 'Sangat Lemah' },
+        { color: 'var(--color-warning-text)', text: 'Lemah' },
+        { color: 'var(--color-warning-text)', text: 'Cukup' },
+        { color: 'var(--color-primary)',      text: 'Kuat' },
+        { color: 'var(--color-success-text)', text: 'Sangat Kuat' },
     ];
 
     function checkStrength(value) {
@@ -185,34 +171,32 @@
             const passed = fn(value);
             if (passed) {
                 score++;
-                el.classList.replace('text-gray-400', 'text-green-600');
+                el.style.color = 'var(--color-success-text)';
                 icon.textContent = '✓';
             } else {
                 allPassed = false;
-                el.classList.replace('text-green-600', 'text-gray-400');
+                el.style.color = 'var(--color-text-subtle)';
                 icon.textContent = '○';
             }
         });
 
         // Kosong — reset semua
         if (!value) {
-            bars.forEach(b => { b.className = 'h-1.5 flex-1 rounded-full bg-gray-200 transition-colors duration-300'; });
+            bars.forEach(b => { b.style.backgroundColor = 'var(--glass-bg)'; });
             label.textContent = '';
-            label.className = 'text-xs text-gray-400';
             btnSubmit.disabled = true;
             return;
         }
 
         // Update bars
         bars.forEach((bar, i) => {
-            bar.className = 'h-1.5 flex-1 rounded-full transition-colors duration-300 ' +
-                (i < score ? levels[score - 1].color : 'bg-gray-200');
+            bar.style.backgroundColor = (i < score ? levels[score - 1].color : 'var(--glass-bg)');
         });
 
         // Update label
         const lvl = levels[score - 1] ?? levels[0];
         label.textContent = lvl.text;
-        label.className   = `text-xs ${lvl.textClass}`;
+        label.style.color = lvl.color;
 
         // Aktifkan tombol submit hanya jika semua syarat terpenuhi
         btnSubmit.disabled = !allPassed;
@@ -228,7 +212,7 @@
         const match = passwordInput.value === confirmInput.value;
         matchMsg.classList.remove('hidden');
         matchMsg.textContent  = match ? '✓ Password cocok' : '✗ Password tidak cocok';
-        matchMsg.className    = `text-xs mt-1 ${match ? 'text-green-600' : 'text-red-500'}`;
+        matchMsg.style.color  = match ? 'var(--color-success-text)' : 'var(--color-danger-text)';
     }
 
     passwordInput.addEventListener('input', () => {

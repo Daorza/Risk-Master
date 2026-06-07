@@ -4,59 +4,54 @@
 
 @section('content')
 <div class="max-w-2xl">
-    <div class="bg-white rounded-xl border border-gray-200 p-6">
-        <form method="POST" action="{{ route('assessments.store') }}" class="space-y-5">
-            @csrf
+    <div class="card">
+        <div class="card-body">
+            <form method="POST" action="{{ route('assessments.store') }}" style="display:flex; flex-direction:column; gap:1.25rem;">
+                @csrf
 
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">
-                    Judul Assessment <span class="text-red-500">*</span>
-                </label>
-                <input type="text" name="title" value="{{ old('title') }}" required
-                       placeholder="Contoh: Analisis Risiko Jaringan Q3 2026"
-                       class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500
-                              @error('title') border-red-400 @enderror">
-                @error('title') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Deskripsi</label>
-                <textarea name="description" rows="3"
-                          placeholder="Konteks dan latar belakang assessment..."
-                          class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none">{{ old('description') }}</textarea>
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">
-                    Pilih Alternatif (Opsional — bisa ditambah nanti)
-                </label>
-                <div class="border border-gray-200 rounded-lg max-h-52 overflow-y-auto divide-y divide-gray-100">
-                    @foreach($alternatives as $alt)
-                        <label class="flex items-start gap-3 px-4 py-3 hover:bg-gray-50 cursor-pointer">
-                            <input type="checkbox" name="alternative_ids[]" value="{{ $alt->id }}"
-                                   class="mt-0.5 rounded border-gray-300 text-blue-600"
-                                   @checked(in_array($alt->id, old('alternative_ids', [])))>
-                            <div>
-                                <p class="text-sm font-medium text-gray-800">{{ $alt->name }}</p>
-                                @if($alt->description)
-                                    <p class="text-xs text-gray-500 mt-0.5">{{ Str::limit($alt->description, 80) }}</p>
-                                @endif
-                            </div>
-                        </label>
-                    @endforeach
+                <div class="form-group">
+                    <label class="form-label form-label-required">Judul Assessment</label>
+                    <input type="text" name="title" value="{{ old('title') }}" required
+                           placeholder="Contoh: Analisis Risiko Jaringan Q3 2026"
+                           class="form-input {{ $errors->has('title') ? 'is-error' : '' }}">
+                    @error('title') <span class="form-error">{{ $message }}</span> @enderror
                 </div>
-                <p class="text-xs text-gray-400 mt-1">{{ $alternatives->count() }} alternatif tersedia</p>
-            </div>
 
-            <div class="flex items-center gap-3 pt-2">
-                <button type="submit"
-                        class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition">
-                    Buat Assessment
-                </button>
-                <a href="{{ route('assessments.index') }}"
-                   class="text-sm text-gray-500 hover:text-gray-700">Batal</a>
-            </div>
-        </form>
+                <div class="form-group">
+                    <label class="form-label">Deskripsi</label>
+                    <textarea name="description"
+                              placeholder="Konteks dan latar belakang assessment..."
+                              class="form-input">{{ old('description') }}</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Pilih Alternatif (Opsional — bisa ditambah nanti)</label>
+                    <div style="border:1px solid var(--color-border); border-radius:var(--radius-lg); max-height:13rem; overflow-y:auto; display:flex; flex-direction:column;">
+                        @foreach($alternatives as $alt)
+                            <label style="display:flex; align-items:flex-start; gap:0.75rem; padding:0.75rem 1rem; border-bottom:1px solid var(--color-border); cursor:pointer; transition:background-color 0.2s;"
+                                   onmouseover="this.style.backgroundColor='var(--color-bg-subtle)'"
+                                   onmouseout="this.style.backgroundColor='transparent'">
+                                <input type="checkbox" name="alternative_ids[]" value="{{ $alt->id }}"
+                                       style="margin-top:0.125rem; accent-color:var(--color-primary);"
+                                       @checked(in_array($alt->id, old('alternative_ids', [])))>
+                                <div style="flex:1;">
+                                    <p style="font-size:var(--font-size-sm); font-weight:500; color:var(--color-text);">{{ $alt->name }}</p>
+                                    @if($alt->description)
+                                        <p style="font-size:var(--font-size-xs); color:var(--color-text-subtle); margin-top:0.125rem;">{{ Str::limit($alt->description, 80) }}</p>
+                                    @endif
+                                </div>
+                            </label>
+                        @endforeach
+                    </div>
+                    <p style="font-size:var(--font-size-xs); color:var(--color-text-muted); margin-top:0.375rem;">{{ $alternatives->count() }} alternatif tersedia</p>
+                </div>
+
+                <div style="display:flex; align-items:center; gap:0.75rem; margin-top:0.5rem;">
+                    <button type="submit" class="btn btn-primary">Buat Assessment</button>
+                    <a href="{{ route('assessments.index') }}" class="btn btn-ghost">Batal</a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 @endsection

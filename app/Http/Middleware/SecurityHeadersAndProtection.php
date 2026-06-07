@@ -16,7 +16,6 @@ class SecurityHeadersAndProtection
     public function handle(Request $request, Closure $next): Response
     {
         // ── 1. DDoS / Rate limit global ───────────────────────────────────────
-        // Maksimal 120 request per menit per IP untuk semua endpoint
         $ipKey = 'global:' . $request->ip();
 
         if ($this->limiter->tooManyAttempts($ipKey, 120)) {
@@ -39,8 +38,6 @@ class SecurityHeadersAndProtection
         $this->limiter->hit($ipKey, 60);
 
         // ── 2. SQL Injection protection ───────────────────────────────────────
-        // Semua Eloquent query sudah parameterized (aman dari SQLi).
-        // Ini hanya lapisan tambahan untuk detect dan log percobaan di query string.
         $queryString = urldecode($request->getQueryString() ?? '');
         $sqlPatterns = [
             '/(\bunion\b.*\bselect\b)/i',
@@ -73,20 +70,48 @@ class SecurityHeadersAndProtection
         $response->headers->set('X-XSS-Protection', '1; mode=block');
         $response->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');
         $response->headers->set(
-            'Strict-Transport-Security',
-            'max-age=31536000; includeSubDomains; preload'
-        );
-        $response->headers->set(
             'Permissions-Policy',
             'geolocation=(), microphone=(), camera=()'
-        );
-        $response->headers->set(
-            'Content-Security-Policy',
-            "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
         );
         $response->headers->remove('X-Powered-By');
         $response->headers->remove('Server');
 
+        // ── 5. CSP — berbeda antara local dev dan production ──────────────────
+        $response->headers->set(
+            'Content-Security-Policy',
+            $this->buildCsp(),
+        );
+
+        // HSTS hanya aktif di production (HTTPS)
+        if (app()->isProduction()) {
+            $response->headers->set(
+                'Strict-Transport-Security',
+                'max-age=31536000; includeSubDomains; preload'
+            );
+        }
+
         return $response;
     }
+
+private function buildCsp(): ?string
+{
+    if (app()->isLocal()) {
+        return null;
+    }
+
+    return implode('; ', [
+        // "default-src 'self'",
+        // "script-src 'self' 'unsafe-inline'",
+        // "style-src 'self' 'unsafe-inline'",
+        "img-src 'self' data: blob:",
+        // "font-src 'self' data:",
+        // "connect-src 'self'",
+        "frame-ancestors 'none'",
+        "base-uri 'self'",
+        "form-action 'self'",
+        "upgrade-insecure-requests",
+    ]);
+}
+
+
 }

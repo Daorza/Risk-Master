@@ -167,7 +167,7 @@ class AssessmentController extends Controller
 
         $request->validate([
             'values'     => ['required', 'array'],
-            'values.*.*' => ['required', 'numeric', 'min:0'],
+            'values.*.*' => ['required', 'numeric', 'min:0.1', 'max:1.0'],
         ]);
 
         $now        = now();
@@ -179,7 +179,7 @@ class AssessmentController extends Controller
                     'assessment_id'  => $assessment->id,
                     'alternative_id' => (int) $altId,
                     'criteria_id'    => (int) $critId,
-                    'value'          => (float) $value,
+                    'value'          => round((float) $value, 4),
                     'input_by'       => $request->user()->id,
                     'created_at'     => $now,
                     'updated_at'     => $now,

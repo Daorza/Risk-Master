@@ -79,8 +79,10 @@ class EdasService
         }
 
         foreach ($valueRows as $row) {
-            if (array_key_exists($row->alternative_id, $matrix)
-                && array_key_exists($row->criteria_id, $matrix[$row->alternative_id])) {
+            if (
+                array_key_exists($row->alternative_id, $matrix) &&
+                array_key_exists($row->criteria_id, $matrix[$row->alternative_id])
+            ) {
                 $matrix[$row->alternative_id][$row->criteria_id] = (float) $row->value;
             }
         }
@@ -217,21 +219,20 @@ class EdasService
         usort($scores, fn ($a, $b) => $b['appraisal_score'] <=> $a['appraisal_score']);
 
         $rank = 1;
-        $prevAs = null;
-        $prevRank = 1;
+        $prevScore = null;
 
         foreach ($scores as $i => &$entry) {
-            if ($prevAs !== null && round($entry['appraisal_score'], self::FLOAT_PRECISION) === round($prevAs, self::FLOAT_PRECISION)) {
-                $entry['rank'] = $prevRank;
-            } else {
+            $currentScore = round($entry['appraisal_score'], self::FLOAT_PRECISION);
+
+            if ($prevScore === null || $currentScore !== $prevScore) {
                 $entry['rank'] = $rank;
-                $prevRank = $rank;
+            } else {
+                $entry['rank'] = $scores[$i - 1]['rank'];
             }
 
-            $prevAs = $entry['appraisal_score'];
+            $prevScore = $currentScore;
             $rank++;
         }
-
         unset($entry);
 
         return $scores;
@@ -277,6 +278,7 @@ class EdasService
         return EdasResult::where('assessment_id', $assessment->id)
             ->with('alternative:id,name,description')
             ->orderBy('rank')
+            ->orderBy('appraisal_score', 'desc')
             ->get();
     }
 
