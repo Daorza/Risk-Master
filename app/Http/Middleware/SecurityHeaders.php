@@ -43,12 +43,12 @@ class SecurityHeaders
         // Content Security Policy — cegah XSS dan injeksi resource asing
         // 'nonce' bisa ditambahkan nanti untuk inline scripts jika dibutuhkan
         $csp = implode('; ', [
-            "default-src 'self'",
-            "script-src 'self' 'unsafe-inline'",   // unsafe-inline diperlukan untuk Blade inline JS
-            "style-src 'self' 'unsafe-inline'",    // diperlukan untuk Tailwind inline
+            // "default-src 'self'",
+            // "script-src 'self' 'unsafe-inline'",   // unsafe-inline diperlukan untuk Blade inline JS
+            // "style-src 'self' 'unsafe-inline'",    // diperlukan untuk Tailwind inline
             "img-src 'self' data: blob:",
-            "font-src 'self' data:",
-            "connect-src 'self'",
+            // "font-src 'self' data:",
+            // "connect-src 'self'",
             "frame-ancestors 'none'",              // double protection clickjacking
             "base-uri 'self'",
             "form-action 'self'",

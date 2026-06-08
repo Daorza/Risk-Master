@@ -3,61 +3,63 @@
 @section('header', 'Kelola Pengguna')
 
 @section('content')
-<div class="space-y-5">
-    <div class="flex flex-wrap gap-3 items-center justify-between">
-        <form method="GET" class="flex gap-2">
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama atau email..."
-                   class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-60">
-            <select name="role" class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+<div style="display:flex; flex-direction:column; gap:1.25rem;">
+
+    <div style="display:flex; align-items:center; justify-content:space-between; gap:0.75rem; flex-wrap:wrap;">
+        <form method="GET" style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+            <input type="text" name="search" value="{{ request('search') }}"
+                   placeholder="Cari nama atau email..." class="form-input" style="width:16rem;">
+            <select name="role" class="form-input" style="width:auto;">
                 <option value="">Semua role</option>
-                <option value="user" @selected(request('role') === 'user')>User</option>
+                <option value="user"  @selected(request('role') === 'user')>User</option>
                 <option value="admin" @selected(request('role') === 'admin')>Admin</option>
             </select>
-            <button type="submit" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm">Filter</button>
+            <button type="submit" class="btn btn-secondary">Filter</button>
+            @if(request('search') || request('role'))
+                <a href="{{ route('admin.users.index') }}" class="btn btn-ghost">Reset</a>
+            @endif
         </form>
-        <a href="{{ route('admin.users.create') }}"
-           class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2">
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+        <a href="{{ route('admin.users.create') }}" class="btn btn-primary">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
             </svg>
             Tambah User
         </a>
     </div>
 
-    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
-        <table class="w-full text-sm">
-            <thead class="bg-gray-50 border-b border-gray-200">
+    <div class="table-wrap">
+        <table class="table">
+            <thead>
                 <tr>
-                    <th class="text-left px-6 py-3 font-semibold text-gray-600">Nama</th>
-                    <th class="text-left px-6 py-3 font-semibold text-gray-600">Email</th>
-                    <th class="text-left px-4 py-3 font-semibold text-gray-600">Role</th>
-                    <th class="text-left px-4 py-3 font-semibold text-gray-600">Bergabung</th>
-                    <th class="px-4 py-3"></th>
+                    <th>Nama</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Bergabung</th>
+                    <th></th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-gray-100">
+            <tbody>
                 @forelse($users as $user)
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-4 font-medium text-gray-900">{{ $user->name }}</td>
-                        <td class="px-6 py-4 text-gray-600">{{ $user->email }}</td>
-                        <td class="px-4 py-4">
-                            <span class="text-xs px-2.5 py-1 rounded-full font-medium
-                                {{ $user->role === 'admin'
-                                    ? 'bg-red-50 text-red-700 border border-red-200'
-                                    : 'bg-gray-100 text-gray-600' }}">
+                    <tr>
+                        <td style="font-weight:500; color:var(--color-text);">{{ $user->name }}</td>
+                        <td style="color:var(--color-text-subtle);">{{ $user->email }}</td>
+                        <td>
+                            <span class="badge {{ $user->role === 'admin' ? 'badge-danger' : 'badge-primary' }}">
                                 {{ ucfirst($user->role) }}
                             </span>
                         </td>
-                        <td class="px-4 py-4 text-gray-400 text-xs">{{ $user->created_at->format('d M Y') }}</td>
-                        <td class="px-4 py-4">
-                            <div class="flex items-center gap-3 justify-end">
-                                <a href="{{ route('admin.users.edit', $user) }}"
-                                   class="text-xs text-blue-600 hover:underline">Edit</a>
+                        <td style="font-size:var(--font-size-xs); color:var(--color-text-subtle);">
+                            {{ $user->created_at->format('d M Y') }}
+                        </td>
+                        <td>
+                            <div style="display:flex; align-items:center; gap:0.5rem; justify-content:flex-end;">
+                                <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-ghost btn-xs">Edit</a>
                                 @if($user->id !== auth()->id())
                                     <form method="POST" action="{{ route('admin.users.destroy', $user) }}"
                                           onsubmit="return confirm('Hapus user ini?')">
                                         @csrf @method('DELETE')
-                                        <button class="text-xs text-red-500 hover:underline">Hapus</button>
+                                        <button class="btn btn-ghost btn-xs"
+                                                style="color:var(--color-danger-text);">Hapus</button>
                                     </form>
                                 @endif
                             </div>
@@ -65,12 +67,14 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" class="px-6 py-12 text-center text-gray-400">Tidak ada pengguna ditemukan.</td>
+                        <td colspan="5" style="text-align:center; padding:3rem 1.5rem; color:var(--color-text-subtle);">
+                            Tidak ada pengguna ditemukan.
+                        </td>
                     </tr>
                 @endforelse
             </tbody>
         </table>
-        <div class="px-6 py-4 border-t border-gray-100">
+        <div style="padding:1rem 1.5rem; border-top:1px solid var(--color-border);">
             {{ $users->links() }}
         </div>
     </div>

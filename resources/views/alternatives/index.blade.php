@@ -3,68 +3,81 @@
 @section('header', 'Daftar Alternatif')
 
 @section('content')
-<div class="space-y-5">
-    <div class="flex flex-wrap gap-3 items-center justify-between">
-        <form method="GET" class="flex gap-2">
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari alternatif..."
-                   class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-56">
-            <select name="source" class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+<div style="display:flex; flex-direction:column; gap:1.25rem;">
+
+    <div style="display:flex; align-items:center; justify-content:space-between; gap:0.75rem; flex-wrap:wrap;">
+        <form method="GET" style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+            <input type="text" name="search" value="{{ request('search') }}"
+                   placeholder="Cari alternatif..." class="form-input" style="width:14rem;">
+            <select name="source" class="form-input" style="width:auto;">
                 <option value="">Semua sumber</option>
                 <option value="admin" @selected(request('source') === 'admin')>Template Admin</option>
-                <option value="user" @selected(request('source') === 'user')>Input User</option>
+                <option value="user"  @selected(request('source') === 'user')>Input User</option>
             </select>
-            <button type="submit" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition">Filter</button>
+            <button type="submit" class="btn btn-secondary">Filter</button>
+            @if(request('search') || request('source'))
+                <a href="{{ route('alternatives.index') }}" class="btn btn-ghost">Reset</a>
+            @endif
         </form>
-        <a href="{{ route('alternatives.create') }}"
-           class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2">
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+        <a href="{{ route('alternatives.create') }}" class="btn btn-primary">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
             </svg>
             Tambah Alternatif
         </a>
     </div>
 
-    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+    <div class="table-wrap">
         @if($alternatives->isEmpty())
-            <div class="py-14 text-center">
-                <p class="text-gray-400 text-sm">Tidak ada alternatif ditemukan.</p>
+            <div style="padding:4rem 1.5rem; text-align:center;">
+                <svg width="40" height="40" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"
+                     style="color:var(--color-border); margin:0 auto 0.75rem; display:block;">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h7"/>
+                </svg>
+                <p style="color:var(--color-text-subtle); font-size:var(--font-size-sm);">Tidak ada alternatif ditemukan.</p>
+                <a href="{{ route('alternatives.create') }}" class="btn btn-ghost btn-sm" style="margin-top:0.75rem;">
+                    Tambah alternatif →
+                </a>
             </div>
         @else
-            <table class="w-full text-sm">
-                <thead class="bg-gray-50 border-b border-gray-200">
+            <table class="table">
+                <thead>
                     <tr>
-                        <th class="text-left px-6 py-3 font-semibold text-gray-600">Nama</th>
-                        <th class="text-left px-6 py-3 font-semibold text-gray-600">Deskripsi</th>
-                        <th class="text-left px-4 py-3 font-semibold text-gray-600">Sumber</th>
-                        <th class="text-left px-4 py-3 font-semibold text-gray-600">Dibuat oleh</th>
-                        <th class="px-4 py-3"></th>
+                        <th>Nama</th>
+                        <th>Deskripsi</th>
+                        <th>Sumber</th>
+                        <th>Dibuat oleh</th>
+                        <th></th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-100">
+                <tbody>
                     @foreach($alternatives as $alt)
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 font-medium text-gray-900">{{ $alt->name }}</td>
-                            <td class="px-6 py-4 text-gray-500 max-w-xs">
-                                <span class="line-clamp-2">{{ $alt->description ?? '—' }}</span>
+                        <tr>
+                            <td style="font-weight:500; color:var(--color-text); white-space:nowrap;">
+                                {{ $alt->name }}
                             </td>
-                            <td class="px-4 py-4">
-                                <span class="text-xs px-2 py-1 rounded-full font-medium
-                                    {{ $alt->source === 'admin'
-                                        ? 'bg-blue-50 text-blue-700 border border-blue-200'
-                                        : 'bg-purple-50 text-purple-700 border border-purple-200' }}">
+                            <td style="max-width:20rem;">
+                                <span style="display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; color:var(--color-text-subtle); font-size:var(--font-size-sm);">
+                                    {{ $alt->description ?? '—' }}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge {{ $alt->source === 'admin' ? 'badge-primary' : 'badge-neutral' }}">
                                     {{ $alt->source_label }}
                                 </span>
                             </td>
-                            <td class="px-4 py-4 text-gray-500 text-xs">{{ $alt->creator?->name ?? '—' }}</td>
-                            <td class="px-4 py-4">
-                                <div class="flex items-center gap-3 justify-end">
+                            <td style="font-size:var(--font-size-xs); color:var(--color-text-subtle);">
+                                {{ $alt->creator?->name ?? '—' }}
+                            </td>
+                            <td>
+                                <div style="display:flex; align-items:center; gap:0.5rem; justify-content:flex-end;">
                                     @if(auth()->user()->isAdmin() || $alt->created_by === auth()->id())
-                                        <a href="{{ route('alternatives.edit', $alt) }}"
-                                           class="text-xs text-blue-600 hover:underline">Edit</a>
+                                        <a href="{{ route('alternatives.edit', $alt) }}" class="btn btn-ghost btn-xs">Edit</a>
                                         <form method="POST" action="{{ route('alternatives.destroy', $alt) }}"
                                               onsubmit="return confirm('Hapus alternatif ini?')">
                                             @csrf @method('DELETE')
-                                            <button class="text-xs text-red-500 hover:underline">Hapus</button>
+                                            <button class="btn btn-ghost btn-xs"
+                                                    style="color:var(--color-danger-text);">Hapus</button>
                                         </form>
                                     @endif
                                 </div>
@@ -73,7 +86,7 @@
                     @endforeach
                 </tbody>
             </table>
-            <div class="px-6 py-4 border-t border-gray-100">
+            <div style="padding:1rem 1.5rem; border-top:1px solid var(--color-border);">
                 {{ $alternatives->links() }}
             </div>
         @endif

@@ -1,8 +1,8 @@
 @props(['criteria'])
 
-<th class="text-center px-3 py-3 font-semibold text-gray-700 whitespace-nowrap min-w-[120px]">
-    <div class="text-sm">{{ $criteria->name }}</div>
-    <div class="font-normal text-xs {{ $criteria->isBenefit() ? 'text-blue-500' : 'text-orange-500' }}">
+<th style="text-align:center; min-width:120px; white-space:nowrap;">
+    <div style="font-size:var(--font-size-sm); color:var(--color-text);">{{ $criteria->name }}</div>
+    <div style="font-size:var(--font-size-xs); font-weight:500; margin-top:0.125rem; color: {{ $criteria->isBenefit() ? 'var(--color-primary-text)' : 'var(--color-warning-text)' }};">
         {{ strtoupper($criteria->type) }} · {{ $criteria->weight_percent }}
     </div>
 </th>

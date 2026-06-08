@@ -1,87 +1,95 @@
 @extends('layouts.app')
 @section('title', 'Assessment')
-@section('header', 'Daftar Assessment')
+@section('header', 'Assessment')
 
 @section('content')
-<div class="space-y-5">
-    {{-- Toolbar --}}
-    <div class="flex flex-wrap items-center gap-3 justify-between">
-        <form method="GET" class="flex gap-2">
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari assessment..."
-                   class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-60">
-            <select name="status" class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+<div style="display:flex; flex-direction:column; gap:1.25rem;">
+
+    <div style="display:flex; align-items:center; justify-content:space-between; gap:0.75rem; flex-wrap:wrap;">
+        <form method="GET" style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+            <input type="text" name="search" value="{{ request('search') }}"
+                   placeholder="Cari assessment..." class="form-input" style="width:15rem;">
+            <select name="status" class="form-input" style="width:auto;">
                 <option value="">Semua status</option>
-                <option value="draft" @selected(request('status') === 'draft')>Draft</option>
+                <option value="draft"     @selected(request('status') === 'draft')>Draft</option>
                 <option value="completed" @selected(request('status') === 'completed')>Selesai</option>
             </select>
-            <button type="submit" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition">
-                Filter
-            </button>
+            <button type="submit" class="btn btn-secondary">Filter</button>
+            @if(request('search') || request('status'))
+                <a href="{{ route('assessments.index') }}" class="btn btn-ghost">Reset</a>
+            @endif
         </form>
-        <a href="{{ route('assessments.create') }}"
-           class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2">
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+        <a href="{{ route('assessments.create') }}" class="btn btn-primary">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
             </svg>
             Buat Assessment
         </a>
     </div>
 
-    {{-- Table --}}
-    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+    <div class="table-wrap">
         @if($assessments->isEmpty())
-            <div class="py-16 text-center">
-                <p class="text-gray-400 text-sm">Tidak ada assessment ditemukan.</p>
-                <a href="{{ route('assessments.create') }}" class="mt-2 inline-block text-blue-600 hover:underline text-sm">Buat pertama →</a>
+            <div style="padding:4rem 1.5rem; text-align:center;">
+                <svg width="40" height="40" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"
+                     style="color:var(--color-border); margin:0 auto 0.75rem; display:block;">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                </svg>
+                <p style="color:var(--color-text-subtle); font-size:var(--font-size-sm);">Tidak ada assessment ditemukan.</p>
+                <a href="{{ route('assessments.create') }}" class="btn btn-ghost btn-sm" style="margin-top:0.75rem;">
+                    Buat pertama →
+                </a>
             </div>
         @else
-            <table class="w-full text-sm">
-                <thead class="bg-gray-50 border-b border-gray-200">
+            <table class="table">
+                <thead>
                     <tr>
-                        <th class="text-left px-6 py-3 font-semibold text-gray-600">Judul</th>
-                        <th class="text-left px-6 py-3 font-semibold text-gray-600">Pemilik</th>
-                        <th class="text-center px-4 py-3 font-semibold text-gray-600">Alternatif</th>
-                        <th class="text-left px-4 py-3 font-semibold text-gray-600">Status</th>
-                        <th class="text-left px-4 py-3 font-semibold text-gray-600">Dibuat</th>
-                        <th class="px-4 py-3"></th>
+                        <th>Judul</th>
+                        <th>Pemilik</th>
+                        <th style="text-align:center;">Alt.</th>
+                        <th>Status</th>
+                        <th>Dibuat</th>
+                        <th></th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-100">
+                <tbody>
                     @foreach($assessments as $a)
-                        <tr class="hover:bg-gray-50 transition">
-                            <td class="px-6 py-4">
+                        <tr>
+                            <td>
                                 <a href="{{ route('assessments.show', $a) }}"
-                                   class="font-medium text-gray-900 hover:text-blue-600">{{ $a->title }}</a>
+                                   style="font-weight:500; color:var(--color-text); text-decoration:none; transition:color var(--duration-base);"
+                                   onmouseover="this.style.color='var(--color-accent-400)'"
+                                   onmouseout="this.style.color='var(--color-text)'">
+                                    {{ $a->title }}
+                                </a>
                                 @if($a->description)
-                                    <p class="text-xs text-gray-400 mt-0.5 truncate max-w-xs">{{ $a->description }}</p>
+                                    <p style="font-size:var(--font-size-xs); color:var(--color-text-subtle); margin-top:0.125rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:20rem;">
+                                        {{ $a->description }}
+                                    </p>
                                 @endif
                             </td>
-                            <td class="px-6 py-4 text-gray-600">{{ $a->owner?->name ?? '—' }}</td>
-                            <td class="px-4 py-4 text-center text-gray-600">{{ $a->alternatives_count }}</td>
-                            <td class="px-4 py-4">
-                                <span class="text-xs px-2.5 py-1 rounded-full font-medium
-                                    {{ $a->status === 'completed'
-                                        ? 'bg-green-50 text-green-700 border border-green-200'
-                                        : 'bg-yellow-50 text-yellow-700 border border-yellow-200' }}">
+                            <td style="color:var(--color-text-muted);">{{ $a->owner?->name ?? '—' }}</td>
+                            <td style="text-align:center; font-variant-numeric:tabular-nums;">{{ $a->alternatives_count }}</td>
+                            <td>
+                                <span class="badge badge-dot {{ $a->status === 'completed' ? 'badge-success' : 'badge-warning' }}">
                                     {{ $a->status_label }}
                                 </span>
                             </td>
-                            <td class="px-4 py-4 text-gray-500 text-xs">{{ $a->created_at->format('d M Y') }}</td>
-                            <td class="px-4 py-4">
-                                <div class="flex items-center gap-2 justify-end">
-                                    <a href="{{ route('assessments.show', $a) }}"
-                                       class="text-xs text-blue-600 hover:underline">Detail</a>
+                            <td style="font-size:var(--font-size-xs); color:var(--color-text-subtle);">
+                                {{ $a->created_at->format('d M Y') }}
+                            </td>
+                            <td>
+                                <div style="display:flex; align-items:center; gap:0.375rem; justify-content:flex-end;">
+                                    <a href="{{ route('assessments.show', $a) }}" class="btn btn-ghost btn-xs">Detail</a>
                                     @if($a->status === 'draft')
-                                        <a href="{{ route('assessments.values.edit', $a) }}"
-                                           class="text-xs text-indigo-600 hover:underline">Input Nilai</a>
+                                        <a href="{{ route('assessments.values.edit', $a) }}" class="btn btn-outline-primary btn-xs">Input Nilai</a>
                                     @else
-                                        <a href="{{ route('assessments.results', $a) }}"
-                                           class="text-xs text-green-600 hover:underline">Hasil</a>
+                                        <a href="{{ route('assessments.results', $a) }}" class="btn btn-xs btn-success">Hasil</a>
                                     @endif
                                     <form method="POST" action="{{ route('assessments.destroy', $a) }}"
                                           onsubmit="return confirm('Hapus assessment ini?')">
                                         @csrf @method('DELETE')
-                                        <button type="submit" class="text-xs text-red-500 hover:underline">Hapus</button>
+                                        <button class="btn btn-ghost btn-xs" style="color:var(--color-danger-text);">Hapus</button>
                                     </form>
                                 </div>
                             </td>
@@ -89,8 +97,7 @@
                     @endforeach
                 </tbody>
             </table>
-
-            <div class="px-6 py-4 border-t border-gray-100">
+            <div style="padding:1rem 1.5rem; border-top:1px solid var(--color-border);">
                 {{ $assessments->links() }}
             </div>
         @endif

@@ -3,54 +3,51 @@
 @section('header', 'Tambah Kriteria Baru')
 
 @section('content')
-<div class="max-w-lg">
-    <div class="bg-white rounded-xl border border-gray-200 p-6">
-        <form method="POST" action="{{ route('admin.criteria.store') }}" class="space-y-5">
-            @csrf
+<div class="max-w-lg mx-auto">
+    <div class="card">
+        <div class="card-body">
+            <form method="POST" action="{{ route('admin.criteria.store') }}" style="display:flex; flex-direction:column; gap:1.25rem;">
+                @csrf
 
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Nama Kriteria <span class="text-red-500">*</span></label>
-                <input type="text" name="name" value="{{ old('name') }}" required placeholder="Contoh: Efektivitas Mitigasi"
-                       class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500
-                              @error('name') border-red-400 @enderror">
-                @error('name') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Deskripsi</label>
-                <textarea name="description" rows="3"
-                          placeholder="Penjelasan kriteria dan cara penilaiannya..."
-                          class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none">{{ old('description') }}</textarea>
-            </div>
-
-            <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Tipe <span class="text-red-500">*</span></label>
-                    <select name="type" required
-                            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option value="benefit" @selected(old('type') === 'benefit')>Benefit (lebih tinggi = lebih baik)</option>
-                        <option value="cost" @selected(old('type') === 'cost')>Cost (lebih rendah = lebih baik)</option>
-                    </select>
+                <div class="form-group">
+                    <label class="form-label form-label-required">Nama Kriteria</label>
+                    <input type="text" name="name" value="{{ old('name') }}" required placeholder="Contoh: Efektivitas Mitigasi"
+                           class="form-input {{ $errors->has('name') ? 'is-error' : '' }}">
+                    @error('name') <span class="form-error">{{ $message }}</span> @enderror
                 </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Bobot (0–1) <span class="text-red-500">*</span></label>
-                    <input type="number" name="weight" value="{{ old('weight') }}" required
-                           min="0.0001" max="1" step="0.0001" placeholder="Contoh: 0.3000"
-                           class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500
-                                  @error('weight') border-red-400 @enderror">
-                    @error('weight') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
+
+                <div class="form-group">
+                    <label class="form-label">Deskripsi</label>
+                    <textarea name="description" rows="3"
+                              placeholder="Penjelasan kriteria dan cara penilaiannya..."
+                              class="form-input">{{ old('description') }}</textarea>
                 </div>
-            </div>
 
-            <p class="text-xs text-gray-400">Total semua bobot kriteria harus = 1.0000 agar kalkulasi EDAS valid.</p>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                    <div class="form-group">
+                        <label class="form-label form-label-required">Tipe</label>
+                        <select name="type" required class="form-input">
+                            <option value="benefit" @selected(old('type') === 'benefit')>Benefit (lebih tinggi = lebih baik)</option>
+                            <option value="cost" @selected(old('type') === 'cost')>Cost (lebih rendah = lebih baik)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label form-label-required">Bobot (0–1)</label>
+                        <input type="number" name="weight" value="{{ old('weight') }}" required
+                               min="0.0001" max="1" step="0.0001" placeholder="Contoh: 0.3000"
+                               class="form-input {{ $errors->has('weight') ? 'is-error' : '' }}">
+                        @error('weight') <span class="form-error">{{ $message }}</span> @enderror
+                    </div>
+                </div>
 
-            <div class="flex gap-3 pt-2">
-                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition">
-                    Tambah Kriteria
-                </button>
-                <a href="{{ route('admin.criteria.index') }}" class="text-sm text-gray-500 hover:text-gray-700 self-center">Batal</a>
-            </div>
-        </form>
+                <p style="font-size:var(--font-size-xs); color:var(--color-text-muted);">Total semua bobot kriteria harus = 1.0000 agar kalkulasi EDAS valid.</p>
+
+                <div style="display:flex; align-items:center; gap:0.75rem; margin-top:0.5rem;">
+                    <button type="submit" class="btn btn-primary">Tambah Kriteria</button>
+                    <a href="{{ route('admin.criteria.index') }}" class="btn btn-ghost">Batal</a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 @endsection

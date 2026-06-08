@@ -6,56 +6,45 @@
 <div class="space-y-6">
 
     {{-- Header info --}}
-    <div class="bg-white rounded-xl border border-gray-200 p-6">
+    <div class="card" style="padding:1.5rem;">
         <div class="flex items-start justify-between gap-4 flex-wrap">
             <div>
                 <div class="flex items-center gap-3 mb-2">
-                    <span class="text-sm px-3 py-1 rounded-full font-medium
-                        {{ $assessment->status === 'completed'
-                            ? 'bg-green-50 text-green-700 border border-green-200'
-                            : 'bg-yellow-50 text-yellow-700 border border-yellow-200' }}">
+                    <span class="badge {{ $assessment->status === 'completed' ? 'badge-success' : 'badge-warning' }}">
                         {{ $assessment->status_label }}
                     </span>
-                    <span class="text-xs text-gray-400">{{ $assessment->created_at->format('d M Y, H:i') }}</span>
+                    <span style="font-size:var(--font-size-xs); color:var(--color-text-subtle);">{{ $assessment->created_at->format('d M Y, H:i') }}</span>
                 </div>
                 @if($assessment->description)
-                    <p class="text-sm text-gray-600 mt-1">{{ $assessment->description }}</p>
+                    <p style="font-size:var(--font-size-sm); color:var(--color-text-muted); margin-top:0.25rem;">{{ $assessment->description }}</p>
                 @endif
-                <p class="text-xs text-gray-400 mt-2">Pemilik: {{ $assessment->owner?->name }}</p>
+                <p style="font-size:var(--font-size-xs); color:var(--color-text-subtle); margin-top:0.5rem;">Pemilik: {{ $assessment->owner?->name }}</p>
             </div>
 
             <div class="flex flex-wrap items-center gap-2">
                 @if($assessment->isDraft())
-                    <a href="{{ route('assessments.values.edit', $assessment) }}"
-                       class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition">
+                    <a href="{{ route('assessments.values.edit', $assessment) }}" class="btn btn-primary">
                         Input Nilai Matrix
                     </a>
                     @if($assessment->isMatrixComplete())
                         <form method="POST" action="{{ route('assessments.calculate', $assessment) }}">
                             @csrf
-                            <button type="submit"
-                                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition">
+                            <button type="submit" class="btn" style="background:var(--color-accent-500); color:white; border-color:var(--color-accent-600);">
                                 Hitung EDAS
                             </button>
                         </form>
                     @endif
-                    <a href="{{ route('assessments.edit', $assessment) }}"
-                       class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition">
+                    <a href="{{ route('assessments.edit', $assessment) }}" class="btn btn-secondary">
                         Edit
                     </a>
                 @else
-                    <a href="{{ route('assessments.results', $assessment) }}"
-                       class="bg-olive-600 hover:bg-olive-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition">
+                    <a href="{{ route('assessments.results', $assessment) }}" class="btn btn-primary">
                         Lihat Hasil EDAS
                     </a>
-                    <a href="{{ route('assessments.report.excel', $assessment) }}"
-                       target="_blank"
-                       class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition">
+                    <a href="{{ route('assessments.report.excel', $assessment) }}" target="_blank" class="btn btn-secondary" style="color:var(--color-success-text);">
                         Download Excel
                     </a>
-                    <a href="{{ route('assessments.report.pdf', $assessment) }}"
-                       target="_blank"
-                       class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition">
+                    <a href="{{ route('assessments.report.pdf', $assessment) }}" target="_blank" class="btn btn-secondary" style="color:var(--color-danger-text);">
                         Download PDF
                     </a>
                 @endif
@@ -72,19 +61,18 @@
         $pct       = $expected > 0 ? round($filled / $expected * 100) : 0;
     @endphp
 
-    <div class="bg-white rounded-xl border border-gray-200 p-6">
+    <div class="card" style="padding:1.5rem;">
         <div class="flex items-center justify-between mb-3">
-            <h2 class="font-semibold text-gray-800">Progres Matrix Keputusan</h2>
-            <span class="text-sm font-medium {{ $filled === $expected ? 'text-green-600' : 'text-gray-500' }}">
+            <h2 style="font-weight:600; color:var(--color-text);">Progres Matrix Keputusan</h2>
+            <span style="font-size:var(--font-size-sm); font-weight:500; color:{{ $filled === $expected ? 'var(--color-success-text)' : 'var(--color-text-subtle)' }};">
                 {{ $filled }}/{{ $expected }} sel terisi ({{ $pct }}%)
             </span>
         </div>
-        <div class="w-full bg-gray-100 rounded-full h-2">
-            <div class="h-2 rounded-full transition-all {{ $filled === $expected ? 'bg-green-500' : 'bg-blue-500' }}"
-                 style="width: {{ $pct }}%"></div>
+        <div style="width:100%; background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:9999px; height:0.5rem; overflow:hidden;">
+            <div style="height:100%; transition:width 0.3s ease; background:{{ $filled === $expected ? 'var(--color-success-text)' : 'var(--color-primary)' }}; width: {{ $pct }}%"></div>
         </div>
         @if($filled < $expected && $assessment->isDraft())
-            <p class="text-xs text-amber-600 mt-2">
+            <p style="font-size:var(--font-size-xs); color:var(--color-warning-text); margin-top:0.5rem;">
                 Masih {{ $expected - $filled }} sel yang belum diisi sebelum dapat menghitung EDAS.
             </p>
         @endif
@@ -92,49 +80,44 @@
 
     {{-- Matrix tabel --}}
     @if($altCount > 0)
-    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
-        <div class="px-6 py-4 border-b border-gray-100">
-            <h2 class="font-semibold text-gray-800">Matrix Keputusan</h2>
-        </div>
-        <div class="overflow-x-auto">
-            <table class="w-full text-sm">
-                <thead class="bg-gray-50">
+    <div class="table-wrap table-sticky-col">
+    <div style="padding:1rem 1.5rem; border-bottom:1px solid var(--color-border);">
+        <h2 style="font-weight:600; color:var(--color-text); font-size:var(--font-size-sm);">Matrix Keputusan</h2>
+    </div>
+    <div class="table-scroll">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="white-space:nowrap; min-width:12rem;">Alternatif</th>
+                    @foreach($criteria as $c)
+                        <x-criteria-header :criteria="$c" />
+                    @endforeach
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($assessment->alternatives as $alt)
                     <tr>
-                        <th class="text-left px-6 py-3 font-semibold text-gray-600 whitespace-nowrap">Alternatif</th>
+                        <td style="font-weight:500; color:var(--color-text); white-space:nowrap;">{{ $alt->name }}</td>
                         @foreach($criteria as $c)
-                            <th class="text-center px-4 py-3 font-semibold text-gray-600 whitespace-nowrap">
-                                <div>{{ $c->name }}</div>
-                                <div class="text-xs font-normal {{ $c->isBenefit() ? 'text-blue-500' : 'text-orange-500' }}">
-                                    {{ strtoupper($c->type) }} · {{ $c->weight_percent }}
-                                </div>
-                            </th>
+                            <td style="text-align:center;">
+                                @if(isset($valueMap[$alt->id][$c->id]))
+                                    <span style="font-family:var(--font-mono); color:var(--color-text-muted);">
+                                        {{ number_format($valueMap[$alt->id][$c->id], 2) }}
+                                    </span>
+                                @else
+                                    <span style="color:var(--color-danger-text);">—</span>
+                                @endif
+                            </td>
                         @endforeach
                     </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-100">
-                    @foreach($assessment->alternatives as $alt)
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-3 font-medium text-gray-800 whitespace-nowrap">{{ $alt->name }}</td>
-                            @foreach($criteria as $c)
-                                <td class="px-4 py-3 text-center">
-                                    @if(isset($valueMap[$alt->id][$c->id]))
-                                        <span class="font-mono text-gray-700">{{ number_format($valueMap[$alt->id][$c->id], 2) }}</span>
-                                    @else
-                                        <span class="text-red-400 text-xs">—</span>
-                                    @endif
-                                </td>
-                            @endforeach
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                @endforeach
+            </tbody>
+        </table>
     </div>
     @else
-        <div class="bg-white rounded-xl border border-gray-200 px-6 py-10 text-center">
-            <p class="text-gray-500 text-sm">Belum ada alternatif yang dipilih.</p>
-            <a href="{{ route('assessments.edit', $assessment) }}"
-               class="mt-2 inline-block text-blue-600 hover:underline text-sm">Edit assessment →</a>
+        <div class="card" style="padding:2.5rem 1.5rem; text-align:center;">
+            <p style="color:var(--color-text-subtle); font-size:var(--font-size-sm);">Belum ada alternatif yang dipilih.</p>
+            <a href="{{ route('assessments.edit', $assessment) }}" class="btn btn-ghost btn-sm" style="margin-top:0.5rem;">Edit assessment →</a>
         </div>
     @endif
 

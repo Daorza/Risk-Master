@@ -1,15 +1,14 @@
 @props(['criteria'])
 
-<div class="bg-white rounded-lg border border-gray-200 p-3">
-    <div class="flex items-center gap-2 mb-1">
-        <span class="text-xs font-bold px-1.5 py-0.5 rounded
-            {{ $criteria->isBenefit() ? 'bg-blue-100 text-blue-700' : 'bg-orange-100 text-orange-700' }}">
+<div class="card" style="padding:0.75rem;">
+    <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.25rem;">
+        <span class="badge {{ $criteria->isBenefit() ? 'badge-primary' : 'badge-warning' }}" style="padding:0.125rem 0.375rem; font-size:var(--font-size-xs);">
             {{ strtoupper($criteria->type) }}
         </span>
-        <span class="text-sm font-semibold text-gray-800">{{ $criteria->name }}</span>
-        <span class="text-xs text-gray-400 ml-auto">{{ $criteria->weight_percent }}</span>
+        <span style="font-size:var(--font-size-sm); font-weight:600; color:var(--color-text);">{{ $criteria->name }}</span>
+        <span style="font-size:var(--font-size-xs); color:var(--color-text-muted); margin-left:auto;">{{ $criteria->weight_percent }}</span>
     </div>
     @if($criteria->description)
-        <p class="text-xs text-gray-500 leading-relaxed">{{ $criteria->description }}</p>
+        <p style="font-size:var(--font-size-xs); color:var(--color-text-subtle); line-height:1.6;">{{ $criteria->description }}</p>
     @endif
 </div>
