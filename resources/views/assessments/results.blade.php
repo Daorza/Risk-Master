@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Hasil EDAS')
-@section('header', 'Hasil EDAS')
+@section('header', 'Hasil EDAS - ' . $assessment->title)
 
 @section('content')
 <div style="display:flex; flex-direction:column; gap:1.5rem;">
@@ -69,7 +69,8 @@
     @endif
 
     {{-- Ranking table --}}
-    <div class="table-wrap">
+    <div class="table-wrap table-sticky-col">
+        <div class="table-scroll">
         <table class="table">
             <thead>
                 <tr>
@@ -123,6 +124,7 @@
                 @endforeach
             </tbody>
         </table>
+        </div>
     </div>
 
     {{-- Legend --}}

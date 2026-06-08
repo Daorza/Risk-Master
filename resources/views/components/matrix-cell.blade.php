@@ -1,11 +1,10 @@
 @props(['value' => null, 'altId', 'critId'])
 
-<td class="px-3 py-3 text-center">
+<td style="text-align:center; padding:0.625rem 0.75rem;">
     <input type="number"
         name="values[{{ $altId }}][{{ $critId }}]"
         value="{{ $value ?? '' }}"
         min="0" step="0.01" required
-        class="w-20 text-center border border-gray-200 rounded-lg px-2 py-1.5 text-sm
-            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:border-transparent"
-    />
+        class="form-input"
+        style="width:5rem; text-align:center; padding:0.375rem 0.5rem; font-family:var(--font-mono);">
 </td>

@@ -29,7 +29,7 @@
         </div>
 
         {{-- Card --}}
-        <div class="card" style="border-radius:var(--radius-xl); padding:2rem; background:white; box-shadow:var(--shadow-lg);">
+        <div class="card bg-gray-700 dark:bg-gray-800" style="border-radius:var(--radius-xl); padding:2rem; box-shadow:var(--shadow-lg);">
 
             @if($errors->any())
                 <div class="alert alert-danger" style="margin-bottom:1.25rem;">

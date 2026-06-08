@@ -3,21 +3,25 @@
 @section('header', 'Kelola Pengguna')
 
 @section('content')
-<div class="space-y-5">
-    <div class="flex flex-wrap gap-3 items-center justify-between">
-        <form method="GET" class="flex gap-2">
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama atau email..."
-                   class="form-input px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-60">
-            <select name="role" class="form-input px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+<div style="display:flex; flex-direction:column; gap:1.25rem;">
+
+    <div style="display:flex; align-items:center; justify-content:space-between; gap:0.75rem; flex-wrap:wrap;">
+        <form method="GET" style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+            <input type="text" name="search" value="{{ request('search') }}"
+                   placeholder="Cari nama atau email..." class="form-input" style="width:16rem;">
+            <select name="role" class="form-input" style="width:auto;">
                 <option value="">Semua role</option>
-                <option value="user" @selected(request('role') === 'user')>User</option>
+                <option value="user"  @selected(request('role') === 'user')>User</option>
                 <option value="admin" @selected(request('role') === 'admin')>Admin</option>
             </select>
             <button type="submit" class="btn btn-secondary">Filter</button>
+            @if(request('search') || request('role'))
+                <a href="{{ route('admin.users.index') }}" class="btn btn-ghost">Reset</a>
+            @endif
         </form>
         <a href="{{ route('admin.users.create') }}" class="btn btn-primary">
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
             </svg>
             Tambah User
         </a>
@@ -44,16 +48,18 @@
                                 {{ ucfirst($user->role) }}
                             </span>
                         </td>
-                        <td style="color:var(--color-text-muted); font-size:var(--font-size-xs);">{{ $user->created_at->format('d M Y') }}</td>
+                        <td style="font-size:var(--font-size-xs); color:var(--color-text-subtle);">
+                            {{ $user->created_at->format('d M Y') }}
+                        </td>
                         <td>
-                            <div class="flex items-center gap-3 justify-end">
-                                <a href="{{ route('admin.users.edit', $user) }}"
-                                   class="btn btn-ghost btn-xs">Edit</a>
+                            <div style="display:flex; align-items:center; gap:0.5rem; justify-content:flex-end;">
+                                <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-ghost btn-xs">Edit</a>
                                 @if($user->id !== auth()->id())
                                     <form method="POST" action="{{ route('admin.users.destroy', $user) }}"
                                           onsubmit="return confirm('Hapus user ini?')">
                                         @csrf @method('DELETE')
-                                        <button class="btn btn-ghost btn-xs" style="color:var(--color-danger-text);">Hapus</button>
+                                        <button class="btn btn-ghost btn-xs"
+                                                style="color:var(--color-danger-text);">Hapus</button>
                                     </form>
                                 @endif
                             </div>
@@ -61,7 +67,9 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" style="text-align:center; padding:3rem 1.5rem; color:var(--color-text-subtle);">Tidak ada pengguna ditemukan.</td>
+                        <td colspan="5" style="text-align:center; padding:3rem 1.5rem; color:var(--color-text-subtle);">
+                            Tidak ada pengguna ditemukan.
+                        </td>
                     </tr>
                 @endforelse
             </tbody>

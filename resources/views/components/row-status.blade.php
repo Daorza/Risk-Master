@@ -1,14 +1,9 @@
-@props(['value' => null, 'filled', 'total'])
+@props(['filled', 'total'])
 
-@php
-    $complete = $filled >= $total && $total > 0;
-@endphp
+@php $complete = (int)$filled >= (int)$total && (int)$total > 0; @endphp
 
-<td class="px-3 py-3 text-center">
-    <span class="text-xs px-2 py-1 rounded-full font-medium
-        {{ $complete
-            ? 'bg-green-100 text-green-700'
-            : 'bg-gray-100 text-gray-700' }}">
+<td style="text-align:center; padding:0.75rem 1rem;">
+    <span class="badge {{ $complete ? 'badge-success' : 'badge-warning' }}">
         {{ $filled }}/{{ $total }}
     </span>
 </td>

@@ -3,7 +3,7 @@
 @section('header', 'Buat Assessment Baru')
 
 @section('content')
-<div class="max-w-2xl">
+<div class="max-w-2xl mx-auto">
     <div class="card">
         <div class="card-body">
             <form method="POST" action="{{ route('assessments.store') }}" style="display:flex; flex-direction:column; gap:1.25rem;">

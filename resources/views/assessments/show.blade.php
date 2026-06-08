@@ -80,14 +80,15 @@
 
     {{-- Matrix tabel --}}
     @if($altCount > 0)
-    <div class="table-wrap">
-        <div style="padding:1rem 1.5rem; border-bottom:1px solid var(--color-border);">
-            <h2 style="font-weight:600; color:var(--color-text);">Matrix Keputusan</h2>
-        </div>
+    <div class="table-wrap table-sticky-col">
+    <div style="padding:1rem 1.5rem; border-bottom:1px solid var(--color-border);">
+        <h2 style="font-weight:600; color:var(--color-text); font-size:var(--font-size-sm);">Matrix Keputusan</h2>
+    </div>
+    <div class="table-scroll">
         <table class="table">
             <thead>
                 <tr>
-                    <th style="white-space:nowrap;">Alternatif</th>
+                    <th style="white-space:nowrap; min-width:12rem;">Alternatif</th>
                     @foreach($criteria as $c)
                         <x-criteria-header :criteria="$c" />
                     @endforeach
@@ -100,9 +101,11 @@
                         @foreach($criteria as $c)
                             <td style="text-align:center;">
                                 @if(isset($valueMap[$alt->id][$c->id]))
-                                    <span style="font-family:var(--font-mono); color:var(--color-text-muted);">{{ number_format($valueMap[$alt->id][$c->id], 2) }}</span>
+                                    <span style="font-family:var(--font-mono); color:var(--color-text-muted);">
+                                        {{ number_format($valueMap[$alt->id][$c->id], 2) }}
+                                    </span>
                                 @else
-                                    <span style="color:var(--color-danger-text); font-size:var(--font-size-xs);">—</span>
+                                    <span style="color:var(--color-danger-text);">—</span>
                                 @endif
                             </td>
                         @endforeach
