@@ -45,6 +45,7 @@ Route::middleware('auth:sanctum')->name('api.')->group(function () {
 
 // Public Report Routes (for easy download via browser without token)
 Route::prefix('assessments/{assessment}')->group(function () {
-    Route::get('report/pdf',                    [ReportController::class,     'pdf'])->name('assessments.report.pdf');
+    Route::get('report/pdf',                    [ReportController::class,     'pdf'])->name('api.assessments.report.pdf');
+    // Route::get('report/pdf',                    [ReportController::class,     'pdf'])->name('assessments.report.pdf');
     Route::get('report/excel',                  [ReportController::class,     'excel'])->name('assessments.report.excel');
 });
