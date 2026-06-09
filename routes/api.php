@@ -47,5 +47,6 @@ Route::middleware('auth:sanctum')->name('api.')->group(function () {
 Route::prefix('assessments/{assessment}')->group(function () {
     Route::get('report/pdf',                    [ReportController::class,     'pdf'])->name('api.assessments.report.pdf');
     // Route::get('report/pdf',                    [ReportController::class,     'pdf'])->name('assessments.report.pdf');
-    Route::get('report/excel',                  [ReportController::class,     'excel'])->name('assessments.report.excel');
+    Route::get('report/excel',                  [ReportController::class,     'excel'])->name('api.assessments.report.excel');
+    // Route::get('report/excel',                  [ReportController::class,     'excel'])->name('assessments.report.excel');
 });
