@@ -169,8 +169,8 @@ class AuthController extends Controller
             ]);
 
             // ── Untuk production (uncomment saat email sudah dikonfigurasi): ──
-            // \Illuminate\Support\Facades\Mail::to($validated['email'])
-            //     ->send(new \App\Mail\ResetPasswordOtp($otp));
+            \Illuminate\Support\Facades\Mail::to($validated['email'])
+                ->send(new \App\Mail\ResetPasswordOtp($otp));
         }
 
         return $this->success(
