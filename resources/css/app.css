@@ -1421,3 +1421,200 @@
   .bg-black\/50 { background-color: oklch(0% 0 0 / 0.55); }
 
 }
+
+/* =============================================================================
+   LIGHT MODE THEME
+   Letakkan di luar @theme dan di luar @layer apapun.
+   Di Tailwind v4, override CSS custom properties di selector biasa bekerja
+   tanpa perlu masuk ke dalam @theme.
+   ============================================================================= */
+
+html.light {
+
+  /* Background */
+  --color-bg:           oklch(99%   0.002 197);
+  --color-bg-subtle:    oklch(96%   0.004 200);
+  --color-bg-muted:     oklch(92%   0.006 205);
+  --color-bg-elevated:  oklch(100%  0     0);
+
+  /* Border */
+  --color-border:         oklch(88%  0.008 210 / 0.8);
+  --color-border-muted:   oklch(92%  0.005 210 / 0.6);
+  --color-border-strong:  oklch(75%  0.012 212 / 0.9);
+  --color-border-white:   oklch(0%   0     0   / 0.06);
+
+  /* Text */
+  --color-text:        oklch(14.8% 0.004 228.8);
+  --color-text-muted:  oklch(37.8% 0.015 216);
+  --color-text-subtle: oklch(56%   0.021 213.5);
+
+  /* Sidebar tetap dark seperti everlend */
+  --color-sidebar-bg:     oklch(14.8% 0.004 228.8);
+  --color-sidebar-hover:  oklch(21.8% 0.008 223.9 / 0.8);
+  --color-sidebar-active: var(--color-accent-500);
+  --color-sidebar-text:   oklch(56%   0.021 213.5);
+  --color-sidebar-muted:  oklch(37.8% 0.015 216);
+
+  /* Glass */
+  --glass-bg:        oklch(100% 0 0 / 0.80);
+  --glass-bg-hover:  oklch(96%  0.004 200 / 0.90);
+  --glass-border:    oklch(0%   0 0 / 0.08);
+
+  /* Shadow */
+  --shadow-xs:      0 1px 2px 0    oklch(0% 0 0 / 0.06);
+  --shadow-sm:      0 1px 3px 0    oklch(0% 0 0 / 0.10),
+                    0 1px 2px -1px oklch(0% 0 0 / 0.06);
+  --shadow-md:      0 4px 6px -1px oklch(0% 0 0 / 0.10),
+                    0 2px 4px -2px oklch(0% 0 0 / 0.06);
+  --shadow-lg:      0 10px 15px -3px oklch(0% 0 0 / 0.10),
+                    0 4px 6px -4px   oklch(0% 0 0 / 0.06);
+  --shadow-glow:    0 0 20px 0 oklch(65% 0.16 188 / 0.12);
+  --shadow-glow-sm: 0 0 10px 0 oklch(65% 0.16 188 / 0.08);
+  --shadow-focus:   0 0 0 3px oklch(65% 0.16 188 / 0.22);
+
+  /* Semantic color overrides */
+  --color-success-bg:     oklch(94% 0.04 135 / 0.5);
+  --color-success-border: oklch(52% 0.14 138 / 0.25);
+  --color-warning-bg:     oklch(95% 0.04 80  / 0.6);
+  --color-warning-border: oklch(78% 0.17 73  / 0.25);
+  --color-danger-bg:      oklch(96% 0.02 20  / 0.5);
+  --color-danger-border:  oklch(56% 0.22 22  / 0.20);
+  --color-primary-bg:     oklch(94% 0.04 192 / 0.4);
+  --color-primary-border: oklch(65% 0.16 188 / 0.22);
+}
+
+/* Komponen yang butuh override selector spesifik di light mode */
+html.light body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+html.light .card {
+  background: oklch(100% 0 0);
+  border-color: oklch(88% 0.008 210 / 0.7);
+  box-shadow: var(--shadow-sm);
+}
+
+html.light .topbar {
+  background: oklch(100% 0 0 / 0.90);
+  border-bottom-color: oklch(88% 0.008 210 / 0.8);
+  backdrop-filter: blur(12px);
+}
+
+html.light .table thead th {
+  background-color: oklch(95% 0.005 200);
+  color: oklch(27.5% 0.011 216.9);
+  border-bottom-color: oklch(88% 0.008 210 / 0.8);
+}
+
+html.light .table tbody tr:hover td {
+  background-color: oklch(96% 0.004 200 / 0.7);
+}
+
+html.light .table td,
+html.light .table th {
+  border-color: oklch(90% 0.006 208 / 0.5);
+}
+
+/* Sticky columns di light mode */
+html.light .table thead th[style*="sticky"] {
+  background-color: oklch(95% 0.005 200) !important;
+}
+
+html.light .table td[style*="sticky"] {
+  background-color: oklch(100% 0 0) !important;
+}
+
+html.light .table tbody tr:hover td[style*="sticky"] {
+  background-color: oklch(94% 0.006 202) !important;
+}
+
+html.light .table-rank-1 td {
+  background-color: oklch(93% 0.04 135 / 0.12);
+}
+
+html.light .table-rank-1 td[style*="sticky"] {
+  background-color: oklch(92% 0.05 135 / 0.18) !important;
+}
+
+html.light .table-wrap {
+  border-color: oklch(88% 0.008 210 / 0.7);
+}
+
+html.light .form-input {
+  background: oklch(100% 0 0);
+  border-color: oklch(85% 0.009 210 / 0.9);
+  color: oklch(14.8% 0.004 228.8);
+}
+
+html.light .form-input:focus {
+  background: oklch(100% 0 0);
+  border-color: var(--color-accent-500);
+}
+
+html.light .form-input::placeholder {
+  color: oklch(65% 0.012 212);
+}
+
+html.light .btn-secondary {
+  background: oklch(95% 0.005 200);
+  border-color: oklch(85% 0.009 210 / 0.8);
+  color: oklch(27.5% 0.011 216.9);
+}
+
+html.light .btn-secondary:hover {
+  background: oklch(91% 0.007 205);
+}
+
+html.light .btn-ghost:hover {
+  background: oklch(92% 0.006 205 / 0.8);
+  color: oklch(14.8% 0.004 228.8);
+}
+
+html.light .alert-success {
+  background: oklch(95% 0.04 135 / 0.4);
+  border-color: oklch(52% 0.14 138 / 0.3);
+  color: oklch(30% 0.12 138);
+}
+
+html.light .alert-danger {
+  background: oklch(96% 0.02 20 / 0.5);
+  border-color: oklch(56% 0.22 22 / 0.25);
+  color: oklch(35% 0.18 22);
+}
+
+html.light .alert-info {
+  background: oklch(94% 0.04 192 / 0.4);
+  border-color: oklch(65% 0.16 188 / 0.25);
+  color: oklch(35% 0.14 190);
+}
+
+html.light .badge-neutral {
+  background: oklch(90% 0.006 208 / 0.6);
+  color: oklch(35% 0.012 215);
+  border-color: oklch(82% 0.009 210 / 0.7);
+}
+
+/* Smooth transition semua elemen saat toggle */
+*,
+*::before,
+*::after {
+  transition:
+    background-color 200ms ease,
+    border-color     200ms ease,
+    color            200ms ease,
+    box-shadow       200ms ease;
+}
+
+/* Elemen yang tidak perlu transisi */
+svg path,
+svg circle,
+svg rect,
+img,
+video,
+canvas,
+.rank-medal,
+input[type="range"],
+.progress-bar {
+  transition: none !important;
+}

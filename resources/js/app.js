@@ -1,5 +1,24 @@
 import './bootstrap'
 
+function toggleTheme() {
+    const html    = document.documentElement
+    const isLight = html.classList.toggle('light')
+
+    localStorage.setItem('rm-theme', isLight ? 'light' : 'dark')
+    syncThemeIcons(isLight)
+}
+
+function syncThemeIcons(isLight) {
+    const moon = document.getElementById('icon-moon')
+    const sun  = document.getElementById('icon-sun')
+    if (!moon || !sun) return
+
+    // Light mode aktif → tampilkan sun (untuk kembali ke dark)
+    // Dark mode aktif  → tampilkan moon (untuk pindah ke light)
+    moon.style.display = isLight ? 'none'  : 'block'
+    sun.style.display  = isLight ? 'block' : 'none'
+}
+
 // ── Pagination links — hapus default Tailwind style dari Laravel ───────────
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -42,3 +61,5 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     })
 })
+
+window.toggleTheme = toggleTheme

@@ -7,6 +7,16 @@
     <title>@yield('title', 'Risk Master') — SPK EDAS</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=space-grotesk:300,400,500,600,700&family=inter:400,500,600,700&family=jetbrains-mono:400,500" rel="stylesheet"/>
+    {{-- Theme init — cegah FOUC (flash of unstyled content) --}}
+    <script>
+        (function() {
+            const saved = localStorage.getItem('rm-theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (saved === 'light' || (!saved && !prefersDark)) {
+                document.documentElement.classList.add('light');
+            }
+        })();
+    </script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
@@ -127,21 +137,45 @@
     {{-- ── Main area ────────────────────────────────────────────────────────── --}}
     <div style="flex:1; display:flex; flex-direction:column; margin-left:var(--sidebar-width); min-height:100dvh;">
 
-        {{-- Topbar --}}
-        <header class="topbar" style="position:sticky; inset-block-start:0; inset-inline:0; margin-left:0;">
-            <h1 style="font-size:var(--font-size-lg); font-weight:700; color:var(--color-mist-50); letter-spacing:-0.025em; flex:1;">
-                @yield('header', 'Dashboard')
-            </h1>
-            <span style="
-                font-size:var(--font-size-xs);
-                color:var(--color-mist-600);
-                background: oklch(21.8% 0.008 223.9 / 0.6);
-                border: 1px solid oklch(100% 0 0 / 0.06);
-                padding: 0.25rem 0.625rem;
-                border-radius: var(--radius-full);
-                font-weight:500;
-            ">{{ now()->isoFormat('D MMM YYYY') }}</span>
-        </header>
+    {{-- Topbar --}}
+    <header class="topbar" style="position:sticky; inset-block-start:0; margin-left:0;">
+        <h1 style="font-size:var(--font-size-lg); font-weight:700; color:var(--color-text);
+                letter-spacing:-0.02em; flex:1;">
+            @yield('header', 'Dashboard')
+        </h1>
+
+        <div style="display:flex; align-items:center; gap:0.75rem;">
+            <span style="font-size:var(--font-size-xs); color:var(--color-text-subtle);">
+                {{ now()->isoFormat('D MMM YYYY') }}
+            </span>
+
+            {{-- Toggle Light/Dark --}}
+            <button id="theme-toggle" onclick="toggleTheme()"
+                    title="Toggle light/dark mode"
+                    style="display:flex; align-items:center; justify-content:center;
+                        width:2.25rem; height:2.25rem; border-radius:var(--radius-md);
+                        background:var(--glass-bg); border:1px solid var(--glass-border);
+                        cursor:pointer; color:var(--color-text-subtle);
+                        transition:all var(--duration-base);"
+                    onmouseover="this.style.color='var(--color-text)'; this.style.borderColor='var(--color-border-strong)';"
+                    onmouseout="this.style.color='var(--color-text-subtle)'; this.style.borderColor='var(--glass-border)';">
+
+                {{-- Icon Moon — tampil saat mode dark --}}
+                <svg id="icon-moon" width="16" height="16" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2" style="display:block;">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+                </svg>
+
+                {{-- Icon Sun — tampil saat mode light --}}
+                <svg id="icon-sun" width="16" height="16" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2" style="display:none;">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+                </svg>
+            </button>
+        </div>
+    </header>
 
         {{-- Flash messages --}}
         @if(session('success') || session('error') || session('info'))

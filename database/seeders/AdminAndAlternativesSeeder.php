@@ -27,57 +27,108 @@ class AdminAndAlternativesSeeder extends Seeder
         // ── Seed alternatif template dari admin ───────────────────────────────
         $alternatives = [
             [
-                'name'        => 'Implementasi Web Application Firewall (WAF)',
-                'description' => 'Memasang WAF untuk memfilter dan memantau lalu lintas HTTP/HTTPS '
-                    . 'masuk ke aplikasi web. Melindungi dari serangan OWASP Top 10 seperti SQL '
-                    . 'injection, XSS, dan CSRF. Bisa berupa solusi cloud (Cloudflare, AWS WAF) '
-                    . 'atau on-premise (ModSecurity).',
+                'name' => 'Implementasi Web Application Firewall (WAF)',
+                'description' => 'Web Application Firewall (WAF) merupakan mekanisme perlindungan yang '
+                    . 'ditempatkan di antara pengguna dan aplikasi web untuk memantau, memfilter, serta '
+                    . 'mengendalikan lalu lintas HTTP dan HTTPS yang masuk maupun keluar. Solusi ini '
+                    . 'berfungsi sebagai lapisan pertahanan tambahan terhadap berbagai ancaman aplikasi '
+                    . 'web seperti SQL Injection, Cross-Site Scripting (XSS), Cross-Site Request Forgery '
+                    . '(CSRF), Local File Inclusion (LFI), Remote File Inclusion (RFI), dan berbagai '
+                    . 'serangan lain yang termasuk dalam OWASP Top 10. Implementasi dapat dilakukan '
+                    . 'menggunakan layanan cloud seperti Cloudflare WAF dan AWS WAF maupun solusi '
+                    . 'on-premise seperti ModSecurity. Penerapan WAF membantu organisasi mengurangi '
+                    . 'risiko eksploitasi aplikasi web tanpa harus melakukan perubahan besar pada kode '
+                    . 'sumber aplikasi yang sudah berjalan.',
             ],
+
             [
-                'name'        => 'Penerapan Patch Management Rutin',
-                'description' => 'Menetapkan kebijakan dan prosedur pembaruan patch keamanan secara '
-                    . 'berkala untuk semua sistem operasi, aplikasi, dan firmware perangkat jaringan. '
-                    . 'Termasuk inventarisasi aset, jadwal patching, dan pengujian sebelum deployment.',
+                'name' => 'Penerapan Patch Management Rutin',
+                'description' => 'Patch Management merupakan proses terstruktur untuk mengidentifikasi, '
+                    . 'menguji, mendistribusikan, dan memasang pembaruan keamanan pada sistem operasi, '
+                    . 'aplikasi, firmware, database, serta perangkat jaringan. Tujuan utama dari '
+                    . 'kegiatan ini adalah menutup kerentanan keamanan yang telah diketahui sebelum '
+                    . 'dimanfaatkan oleh pihak yang tidak berwenang. Implementasi mencakup inventarisasi '
+                    . 'aset TI, pemantauan pembaruan dari vendor, penjadwalan patch berkala, pengujian '
+                    . 'kompatibilitas, hingga verifikasi pasca implementasi. Strategi ini termasuk '
+                    . 'salah satu kontrol keamanan paling efektif karena sebagian besar serangan siber '
+                    . 'modern memanfaatkan celah keamanan yang sebenarnya telah tersedia patch-nya.',
             ],
+
             [
-                'name'        => 'Implementasi Multi-Factor Authentication (MFA)',
-                'description' => 'Menerapkan autentikasi dua atau lebih faktor untuk semua akses '
-                    . 'ke sistem kritis, terutama akses VPN, panel admin, dan email. Mencegah '
-                    . 'kompromi akun meski password bocor. Dapat menggunakan TOTP (Google Authenticator), '
-                    . 'SMS OTP, atau hardware token.',
+                'name' => 'Implementasi Multi-Factor Authentication (MFA)',
+                'description' => 'Multi-Factor Authentication (MFA) merupakan metode autentikasi yang '
+                    . 'mengharuskan pengguna melakukan verifikasi identitas melalui dua atau lebih faktor '
+                    . 'yang berbeda, seperti sesuatu yang diketahui (password), sesuatu yang dimiliki '
+                    . '(OTP, aplikasi autentikator, atau token fisik), dan sesuatu yang melekat pada '
+                    . 'pengguna (biometrik). Implementasi MFA dapat diterapkan pada email institusi, '
+                    . 'portal akademik, VPN, server, aplikasi cloud, maupun akun administrator. '
+                    . 'Penerapan MFA secara signifikan mengurangi risiko kompromi akun akibat pencurian '
+                    . 'password, phishing, credential stuffing, atau kebocoran data kredensial.',
             ],
+
             [
-                'name'        => 'Segmentasi Jaringan dengan VLAN',
-                'description' => 'Membagi jaringan kampus menjadi segmen-segmen logis menggunakan VLAN '
-                    . 'untuk membatasi lateral movement jika terjadi insiden keamanan. Segmentasi '
-                    . 'minimal: jaringan mahasiswa, jaringan staf, jaringan server, dan jaringan IoT.',
+                'name' => 'Segmentasi Jaringan dengan VLAN',
+                'description' => 'Virtual Local Area Network (VLAN) digunakan untuk membagi jaringan '
+                    . 'komputer menjadi beberapa segmen logis yang terpisah meskipun menggunakan '
+                    . 'infrastruktur fisik yang sama. Segmentasi memungkinkan pembatasan komunikasi '
+                    . 'antar kelompok perangkat sehingga mengurangi risiko penyebaran serangan secara '
+                    . 'horizontal (lateral movement) ketika terjadi kompromi pada salah satu segmen. '
+                    . 'Dalam lingkungan institusi pendidikan, segmentasi dapat diterapkan pada jaringan '
+                    . 'mahasiswa, staf, server, laboratorium, perangkat IoT, serta jaringan tamu. '
+                    . 'Selain meningkatkan keamanan, pendekatan ini juga membantu pengelolaan lalu lintas '
+                    . 'jaringan dan meningkatkan performa operasional.',
             ],
+
             [
-                'name'        => 'Implementasi SIEM (Security Information and Event Management)',
-                'description' => 'Memasang sistem SIEM untuk agregasi log, deteksi anomali, dan '
-                    . 'alerting real-time dari berbagai sumber (firewall, IDS, server, endpoint). '
-                    . 'Memungkinkan respons insiden yang lebih cepat dan forensik digital yang lebih baik.',
+                'name' => 'Implementasi SIEM (Security Information and Event Management)',
+                'description' => 'Security Information and Event Management (SIEM) merupakan platform yang '
+                    . 'mengumpulkan, menyimpan, menganalisis, dan mengkorelasikan log keamanan dari '
+                    . 'berbagai sumber seperti firewall, server, endpoint, aplikasi, sistem autentikasi, '
+                    . 'IDS/IPS, dan perangkat jaringan lainnya. SIEM memungkinkan deteksi ancaman secara '
+                    . 'real-time melalui aturan korelasi, analisis perilaku, serta pemberian notifikasi '
+                    . 'otomatis terhadap aktivitas mencurigakan. Selain mendukung respons insiden yang '
+                    . 'lebih cepat, SIEM juga membantu kebutuhan audit keamanan, investigasi forensik '
+                    . 'digital, dan pemenuhan regulasi keamanan informasi.',
             ],
+
             [
-                'name'        => 'Sistem Backup dan Disaster Recovery',
-                'description' => 'Implementasi strategi backup 3-2-1 (3 salinan, 2 media berbeda, '
-                    . '1 offsite) untuk semua data kritis. Disertai prosedur dan pengujian disaster '
-                    . 'recovery berkala untuk memastikan data dapat dipulihkan dalam RTO dan RPO yang ditetapkan.',
+                'name' => 'Sistem Backup dan Disaster Recovery',
+                'description' => 'Backup dan Disaster Recovery merupakan strategi untuk menjamin '
+                    . 'ketersediaan data dan keberlangsungan layanan ketika terjadi insiden seperti '
+                    . 'serangan ransomware, kegagalan perangkat keras, kesalahan manusia, kebakaran, '
+                    . 'atau bencana lainnya. Implementasi dapat mengikuti prinsip 3-2-1, yaitu memiliki '
+                    . 'tiga salinan data, menggunakan dua jenis media penyimpanan yang berbeda, dan '
+                    . 'menyimpan satu salinan di lokasi terpisah. Selain pencadangan data, strategi ini '
+                    . 'mencakup penyusunan prosedur pemulihan, penentuan Recovery Time Objective (RTO), '
+                    . 'Recovery Point Objective (RPO), serta pengujian pemulihan secara berkala untuk '
+                    . 'memastikan data dapat dikembalikan ketika dibutuhkan.',
             ],
+
             [
-                'name'        => 'Pelatihan Keamanan Siber (Security Awareness Training)',
-                'description' => 'Program edukasi rutin untuk seluruh civitas akademika tentang '
-                    . 'ancaman siber terkini, phishing simulation, best practice penggunaan password, '
-                    . 'dan prosedur pelaporan insiden. Mencakup pelatihan awal dan refresher berkala.',
+                'name' => 'Pelatihan Keamanan Siber (Security Awareness Training)',
+                'description' => 'Security Awareness Training merupakan program edukasi yang bertujuan '
+                    . 'meningkatkan kesadaran dan perilaku keamanan seluruh pengguna sistem informasi. '
+                    . 'Materi pelatihan dapat mencakup pengenalan phishing, social engineering, '
+                    . 'pengelolaan kata sandi yang aman, penggunaan perangkat pribadi, perlindungan data, '
+                    . 'serta prosedur pelaporan insiden keamanan. Program biasanya dilengkapi dengan '
+                    . 'simulasi phishing dan evaluasi berkala untuk mengukur tingkat pemahaman pengguna. '
+                    . 'Karena manusia sering menjadi target utama serangan siber, peningkatan kesadaran '
+                    . 'pengguna dapat secara signifikan mengurangi kemungkinan keberhasilan serangan.',
             ],
+
             [
-                'name'        => 'Implementasi Intrusion Detection/Prevention System (IDS/IPS)',
-                'description' => 'Memasang IDS/IPS di titik-titik strategis jaringan untuk mendeteksi '
-                    . 'dan/atau memblokir serangan secara otomatis berdasarkan signature dan anomali '
-                    . 'traffic. Dapat berupa network-based (NIDS) atau host-based (HIDS).',
+                'name' => 'Implementasi Intrusion Detection/Prevention System (IDS/IPS)',
+                'description' => 'Intrusion Detection System (IDS) dan Intrusion Prevention System (IPS) '
+                    . 'merupakan teknologi keamanan yang digunakan untuk mendeteksi maupun mencegah '
+                    . 'aktivitas mencurigakan pada jaringan atau sistem. IDS berfungsi mengidentifikasi '
+                    . 'indikasi serangan dan memberikan notifikasi kepada administrator, sedangkan IPS '
+                    . 'dapat mengambil tindakan otomatis seperti memblokir lalu lintas berbahaya atau '
+                    . 'menghentikan koneksi yang mencurigakan. Implementasi dapat dilakukan dalam bentuk '
+                    . 'Network-Based IDS/IPS maupun Host-Based IDS/IPS. Solusi ini membantu organisasi '
+                    . 'meningkatkan kemampuan monitoring keamanan dan mempercepat respons terhadap '
+                    . 'serangan yang sedang berlangsung.',
             ],
         ];
-
         $inserted = 0;
         foreach ($alternatives as $alt) {
             Alternative::firstOrCreate(

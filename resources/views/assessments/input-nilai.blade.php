@@ -7,7 +7,7 @@
 
     {{-- Panduan --}}
     <h3 style="font-weight:600; font-size:var(--font-size-sm); margin-bottom:0.5rem; color:inherit;">Panduan Penilaian</h3>
-    <div class="alert alert-info" style="border-radius:var(--radius-xl); padding:1rem 1.25rem;">
+    <div class=" alert-info" style="border-radius:var(--radius-xl); padding:1rem 1.25rem;">
         <div class="grid grid-cols-2 gap-3">
             <div style="background:var(--color-bg-subtle); border-radius:var(--radius-lg); padding:0.5rem 0.75rem; border:1px solid var(--color-border);">
                 <p style="font-size:var(--font-size-xs); font-weight:700; color:var(--color-primary-text); margin-bottom:0.25rem;">🔵 BENEFIT</p>
@@ -52,7 +52,7 @@
                 <div class="flex gap-1.5 items-center mb-2">
                     @foreach($alternatives as $i => $alt)
                         <div id="dot-{{ $i }}"
-                             class="h-2 rounded-full transition-all duration-300 {{ $i === 0 ? 'flex-[2]' : 'flex-1' }}"
+                             class="h-2 rounded-full transition-all duration-300 {{ $i === 0 ? 'flex-2' : 'flex-1' }}"
                              style="background: {{ $i === 0 ? 'var(--color-primary)' : 'var(--color-border)' }}">
                         </div>
                     @endforeach
@@ -68,7 +68,7 @@
                 <div id="alt-name-{{ $i }}" class="{{ $i !== 0 ? 'hidden' : '' }}">
                     <h3 style="font-weight:700; color:var(--color-text); font-size:var(--font-size-base);">{{ $alt->name }}</h3>
                     @if($alt->description)
-                        <p style="font-size:var(--font-size-xs); color:var(--color-text-subtle); margin-top:0.125rem;">{{ Str::limit($alt->description, 100) }}</p>
+                        <p style="font-size:var(--font-size-xs); color:var(--color-text-subtle); margin-top:0.125rem;">{{ Str::limit($alt->description, 255) }}</p>
                     @endif
                 </div>
             @endforeach
